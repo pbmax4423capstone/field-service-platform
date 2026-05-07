@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { PRICE_BOOK_CATEGORIES, formatCurrency } from '@field-service/shared'
 import { Plus } from 'lucide-react'
 

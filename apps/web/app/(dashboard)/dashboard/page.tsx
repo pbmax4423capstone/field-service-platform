@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { createApiClient } from '@field-service/api-client'
 import { StatsCards } from '@/components/dashboard/StatsCards'
 import { TodayJobsList } from '@/components/dashboard/TodayJobsList'

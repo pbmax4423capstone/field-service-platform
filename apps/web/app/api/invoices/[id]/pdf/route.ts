@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import PDFDocument from 'pdfkit'
 
 interface RouteParams {
@@ -284,7 +284,7 @@ export async function GET(_req: NextRequest, { params }: RouteParams) {
     doc.end()
     const pdfBuffer = await pdfComplete
 
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',

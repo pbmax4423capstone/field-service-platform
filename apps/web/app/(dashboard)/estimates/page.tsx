@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { ESTIMATE_STATUS_LABELS, formatCurrency, formatDate } from '@field-service/shared'
 import { NewEstimateModal } from '@/components/estimates/NewEstimateModal'

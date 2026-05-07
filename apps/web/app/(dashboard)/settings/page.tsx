@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { StripeConnectButton } from '@/components/settings/StripeConnectButton'
 import { CheckCircle, AlertCircle } from 'lucide-react'
 

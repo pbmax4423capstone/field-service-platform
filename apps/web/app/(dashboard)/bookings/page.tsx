@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { formatDate, formatPhone } from '@field-service/shared'
 import { CalendarCheck, Phone } from 'lucide-react'
 
@@ -24,10 +24,12 @@ export default async function BookingsPage({ searchParams }: PageProps) {
     .eq('id', user!.id)
     .single()
 
+  const orgId = (userData as any)?.organization_id ?? ''
+
   let query = supabase
     .from('bookings')
     .select('*', { count: 'exact' })
-    .eq('organization_id', userData?.organization_id ?? '')
+    .eq('organization_id', orgId)
     .order('created_at', { ascending: false })
     .limit(100)
 

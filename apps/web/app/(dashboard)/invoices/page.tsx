@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { INVOICE_STATUS_LABELS, INVOICE_STATUS_COLORS, formatCurrency, formatDate } from '@field-service/shared'
 import { NewInvoiceModal } from '@/components/invoices/NewInvoiceModal'

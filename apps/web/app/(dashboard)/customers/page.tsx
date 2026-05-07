@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { createApiClient } from '@field-service/api-client'
 import Link from 'next/link'
 import { formatPhone, formatDate } from '@field-service/shared'

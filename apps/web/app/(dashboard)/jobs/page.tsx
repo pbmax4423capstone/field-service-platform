@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { JOB_STATUS_LABELS, JOB_STATUS_COLORS, formatDateTime, formatPhone } from '@field-service/shared'
 import { Plus } from 'lucide-react'
