@@ -116,8 +116,20 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
 - **More tab** — Technician profile (name, email, phone), push notification status badge, app version display, sign-out with confirmation
 - **Push notifications** — Expo push token registered on app open and saved to `users.expo_push_token` (delivery coming in Phase 5)
 
-### Phases 5-8 — Coming Next
-- Phase 5: Twilio/SendGrid notifications + embeddable booking widget
+### Phase 5 ✅ — Notifications + Embeddable Booking Widget
+- **Twilio SMS** — Automated SMS at key events: 24hr reminder, 2hr reminder, technician en route, job completed, review request; respects `notification_preferences` per org; every send logged to `notification_logs`
+- **SendGrid Email** — Same events delivered as branded HTML email (FieldPro blue `#2563EB`); honors `channel` preference (sms / email / both)
+- **Expo Push Notifications** — When a job status changes, the assigned technician receives a push notification via Expo's push API using `users.expo_push_token`
+- **Review Request Flow** — After job completion, automatically SMS/emails customer a Google review link (`organizations.google_review_url`); inserts record into `review_requests`
+- **`POST /api/notifications/send`** — Internal Bearer-token-protected route; accepts `{ orgId, jobId, event }` and fires all applicable channels
+- **`POST /api/review-requests`** — Auth-protected route; sends review request for a completed job
+- **`POST /api/bookings/widget`** — Public CORS-enabled route; validates widget submissions; finds/creates customer by phone; saves booking; emails contractor
+- **Embeddable Booking Widget** (`apps/widget`) — Self-contained Vite + React IIFE bundle (`dist/widget.js`); renders a floating "Book Service" button; 3-step form (service type + urgency → preferred date/time → contact details); embed via:
+  ```html
+  <script src="https://your-app.com/widget.js" data-org-slug="your-slug" async></script>
+  ```
+
+### Phases 6-8 — Coming Next
 - Phase 6: AI chat agent (Claude API)
 - Phase 7: AI voice agent (Twilio + Deepgram + OpenAI TTS)
 - Phase 8: Social media scheduling, website builder, app store launch
@@ -157,6 +169,9 @@ TWILIO_AUTH_TOKEN=                 # Twilio auth token
 TWILIO_PHONE_NUMBER=               # Your Twilio phone number
 
 SENDGRID_API_KEY=                  # SendGrid API key
+SENDGRID_FROM_EMAIL=               # Verified sender address in SendGrid
+
+INTERNAL_API_SECRET=               # Random secret for Bearer auth on /api/notifications/send
 
 # AI Agents (Phases 6-7)
 ANTHROPIC_API_KEY=                 # Claude API key

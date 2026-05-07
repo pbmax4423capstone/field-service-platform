@@ -260,7 +260,7 @@ export async function dispatchJobNotification(ctx: JobNotificationContext): Prom
       `id, title, description, scheduled_start,
        organizations!inner(id, name, google_review_url),
        customers!inner(id, first_name, last_name, phone, email),
-       customer_addresses(address_line1, city, state, zip)`,
+       customer_addresses(street, city, state, zip)`,
     )
     .eq('id', ctx.jobId)
     .single()
@@ -279,7 +279,7 @@ export async function dispatchJobNotification(ctx: JobNotificationContext): Prom
     email: string | null
   }
   const addresses = (job as any).customer_addresses as Array<{
-    address_line1: string
+    street: string
     city: string
     state: string
     zip: string
@@ -287,7 +287,7 @@ export async function dispatchJobNotification(ctx: JobNotificationContext): Prom
 
   const address =
     addresses?.[0]
-      ? `${addresses[0].address_line1}, ${addresses[0].city}, ${addresses[0].state} ${addresses[0].zip}`
+      ? `${addresses[0].street}, ${addresses[0].city}, ${addresses[0].state} ${addresses[0].zip}`
       : undefined
 
   const scheduledAt = (job as any).scheduled_start
