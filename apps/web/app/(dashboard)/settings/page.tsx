@@ -1,6 +1,14 @@
 import { createServerSupabaseClient } from '@/lib/supabase'
+import { StripeConnectButton } from '@/components/settings/StripeConnectButton'
+import { CheckCircle, AlertCircle } from 'lucide-react'
 
-export default async function SettingsPage() {
+interface PageProps {
+  searchParams: Promise<{ stripe?: string }>
+}
+
+export default async function SettingsPage({ searchParams }: PageProps) {
+  const { stripe } = await searchParams
+
   const supabase = await createServerSupabaseClient()
   const { data: { user } } = await supabase.auth.getUser()
   const { data: userData } = await supabase
@@ -21,6 +29,26 @@ export default async function SettingsPage() {
         <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
         <p className="text-sm text-gray-500 mt-0.5">Manage your organization settings</p>
       </div>
+
+      {/* Stripe return banners */}
+      {stripe === 'success' && (
+        <div className="flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl px-5 py-4">
+          <CheckCircle className="w-5 h-5 text-green-600 shrink-0" />
+          <div>
+            <p className="text-sm font-semibold text-green-800">Stripe account connected!</p>
+            <p className="text-xs text-green-700">You can now accept payments from customers.</p>
+          </div>
+        </div>
+      )}
+      {stripe === 'refresh' && (
+        <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl px-5 py-4">
+          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
+          <div>
+            <p className="text-sm font-semibold text-amber-800">Stripe setup incomplete</p>
+            <p className="text-xs text-amber-700">Please try again to complete your Stripe account setup.</p>
+          </div>
+        </div>
+      )}
 
       {/* Business Profile */}
       <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -133,28 +161,28 @@ export default async function SettingsPage() {
         </div>
       </div>
 
-      {/* Stripe */}
+      {/* Stripe Payments */}
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="font-semibold text-gray-900">Payments</h2>
+            <h2 className="font-semibold text-gray-900">Payments (Stripe Connect)</h2>
             <p className="text-sm text-gray-500 mt-0.5">Accept credit card payments from customers</p>
           </div>
           {org?.stripe_onboarding_complete ? (
-            <span className="text-xs font-medium text-green-700 bg-green-50 px-3 py-1 rounded-full">
+            <span className="text-xs font-medium text-green-700 bg-green-50 border border-green-200 px-3 py-1 rounded-full">
               ✓ Connected
             </span>
           ) : (
-            <span className="text-xs font-medium text-amber-700 bg-amber-50 px-3 py-1 rounded-full">
+            <span className="text-xs font-medium text-amber-700 bg-amber-50 border border-amber-100 px-3 py-1 rounded-full">
               Not configured
             </span>
           )}
         </div>
-        {!org?.stripe_onboarding_complete && (
-          <button className="bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-            Connect with Stripe →
-          </button>
-        )}
+
+        <StripeConnectButton
+          isConnected={org?.stripe_onboarding_complete ?? false}
+          stripeAccountId={org?.stripe_account_id ?? null}
+        />
       </div>
     </div>
   )

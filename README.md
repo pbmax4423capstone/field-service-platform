@@ -41,6 +41,7 @@ pnpm install
    - `supabase/migrations/001_initial_schema.sql`
    - `supabase/migrations/002_rls_policies.sql`
    - `supabase/migrations/003_auth_setup.sql`
+   - `supabase/migrations/004_phase3_payments.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -93,8 +94,18 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
 - Bookings management (incoming from widget/AI)
 - Settings (business profile, AI features, Stripe connect)
 
-### Phases 3-8 — Coming Next
-- Phase 3: Stripe Connect payments, estimates, invoice PDF generation
+### Phase 3 ✅ — Payments, Estimates & Invoicing
+- **Stripe Connect** — Contractors connect their Stripe account via Settings → Payments; full OAuth onboarding flow
+- **Stripe Webhooks** — `payment_intent.succeeded` automatically marks invoices as paid; `account.updated` confirms onboarding
+- **Estimates** — Full CRUD (create, list, detail, mark sent, delete); convert accepted estimate → invoice in one click
+- **Invoice detail page** — Line items, totals (subtotal + tax + balance due), payment history, status badge
+- **Invoice PDF generation** — `/api/invoices/[id]/pdf` streams a professionally formatted PDF using pdfkit
+- **Customer payment page** — Public `/pay/[token]` page with Stripe Elements card form; no auth required; shows invoice details
+- **New Invoice modal** — Create invoices with dynamic line items, live total calculation, customer select
+- **New Estimate modal** — Same as invoice modal with valid-until date instead of due date
+- **Payment link copy** — One-click copy of the public payment URL from the invoice detail page
+
+### Phases 4-8 — Coming Next
 - Phase 4: Mobile app (Expo) for technicians
 - Phase 5: Twilio/SendGrid notifications + embeddable booking widget
 - Phase 6: AI chat agent (Claude API)
@@ -127,7 +138,7 @@ SUPABASE_SERVICE_ROLE_KEY=         # Service role key (server-only, keep secret)
 
 # Payments (Phase 3)
 STRIPE_SECRET_KEY=                 # Stripe secret key
-STRIPE_PUBLISHABLE_KEY=            # Stripe publishable key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY= # Stripe publishable key (public)
 STRIPE_WEBHOOK_SECRET=             # Stripe webhook signing secret
 
 # Notifications (Phase 5)
