@@ -322,14 +322,14 @@ export async function POST(req: NextRequest) {
             currentBlockIndex++
             currentBlockType = event.content_block.type
             if (event.content_block.type === 'text') {
-              contentBlocks.push({ type: 'text', text: '' })
+              contentBlocks.push({ type: 'text', text: '', citations: [] } as any)
             } else if (event.content_block.type === 'tool_use') {
               contentBlocks.push({
                 type: 'tool_use',
                 id: event.content_block.id,
                 name: event.content_block.name,
                 input: {},
-              })
+              } as any)
             }
           } else if (event.type === 'content_block_delta') {
             if (event.delta.type === 'text_delta') {
