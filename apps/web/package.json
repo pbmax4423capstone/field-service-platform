@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.95.1",
     "@field-service/api-client": "workspace:*",
     "@field-service/shared": "workspace:*",
     "@field-service/ui": "workspace:*",

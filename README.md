@@ -129,8 +129,15 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
   <script src="https://your-app.com/widget.js" data-org-slug="your-slug" async></script>
   ```
 
-### Phases 6-8 — Coming Next
-- Phase 6: AI chat agent (Claude API)
+### Phase 6 ✅ — AI Chat Agent (Claude API)
+- **Claude-powered chat** — `/chat` page (auth-gated) lets contractors chat with an AI assistant that has full context of their org: today's jobs, outstanding invoices, customer count, recent activity
+- **POST /api/chat** — Accepts `{ conversationId?, message }` from an authenticated contractor; loads or creates a `chat_conversations` row; fetches relevant org context from Supabase using the service role key; calls Claude `claude-3-5-sonnet-20241022` with a system prompt containing the org context; streams the response back using Next.js streaming (SSE); appends the assistant reply to the conversation `messages` JSONB column when streaming completes
+- **Streaming UI** — Token-by-token display as Claude responds; cursor-blink effect during stream; "Thinking…" state before first token; Wrench icon + tool name shown while Claude calls tools
+- **AI tool use** — Claude supports two tools: `get_job_details` (accepts `job_id`, returns full job record with line items and status history) and `get_customer_history` (accepts `customer_id`, returns full service history and invoice list); Anthropic `tool_use` message blocks; executed server-side against Supabase; result fed back as `tool_result` block; streaming continues
+- **Chat UI** — Full-page interface at `/chat` with: left sidebar listing past conversations (title = first user message truncated to 40 chars, stored in `localStorage`); main message thread with user/assistant bubbles; "New Chat" button; auto-scroll to latest message; suggested starter prompts on empty state
+- **Navigation** — "AI Chat" link added to sidebar nav with `MessageSquare` icon
+
+### Phases 7-8 — Coming Next
 - Phase 7: AI voice agent (Twilio + Deepgram + OpenAI TTS)
 - Phase 8: Social media scheduling, website builder, app store launch
 
@@ -173,8 +180,8 @@ SENDGRID_FROM_EMAIL=               # Verified sender address in SendGrid
 
 INTERNAL_API_SECRET=               # Random secret for Bearer auth on /api/notifications/send
 
-# AI Agents (Phases 6-7)
-ANTHROPIC_API_KEY=                 # Claude API key
+# AI Agents (Phase 6+ — Claude chat)
+ANTHROPIC_API_KEY=                 # Claude API key — from console.anthropic.com
 
 # App
 NEXT_PUBLIC_APP_URL=               # Your app URL (http://localhost:3000 for dev)
