@@ -1,20 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // pdfkit uses Node.js canvas — exclude from client bundles
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        canvas: false,
-        fs: false,
-        path: false,
-        stream: false,
-        zlib: false,
-      }
-    }
-    return config
-  },
+  // Silence the Turbopack/webpack conflict warning in Next.js 16
+  turbopack: {},
+  // pdfkit uses Node.js APIs — exclude from client bundles
+  serverExternalPackages: ['pdfkit'],
 };
 
 export default nextConfig;
