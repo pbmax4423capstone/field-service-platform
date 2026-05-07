@@ -1,0 +1,19 @@
+{
+  "name": "field-service-platform",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@10.5.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+  },
+  "devDependencies": {
+    "turbo": "^2.5.3",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}

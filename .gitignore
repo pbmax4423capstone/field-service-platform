@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+apps/web/.next/
+apps/web/out/
+apps/marketing/.next/
+apps/marketing/out/
+
+# Expo / React Native
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/android/
+apps/mobile/ios/
+
+# Turbo
+.turbo/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
