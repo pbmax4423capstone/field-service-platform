@@ -43,6 +43,7 @@ pnpm install
    - `supabase/migrations/003_auth_setup.sql`
    - `supabase/migrations/004_phase3_payments.sql`
    - `supabase/migrations/005_phase4_mobile.sql`
+   - `supabase/migrations/006_phase7_voice.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -137,9 +138,19 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
 - **Chat UI** — Full-page interface at `/chat` with: left sidebar listing past conversations (title = first user message truncated to 40 chars, stored in `localStorage`); main message thread with user/assistant bubbles; "New Chat" button; auto-scroll to latest message; suggested starter prompts on empty state
 - **Navigation** — "AI Chat" link added to sidebar nav with `MessageSquare` icon
 
-### Phases 7-8 — Coming Next
-- Phase 7: AI voice agent (Twilio + Deepgram + OpenAI TTS)
-- Phase 8: Social media scheduling, website builder, app store launch
+### Phase 7 ✅ — AI Voice Agent (Twilio + Deepgram + Claude)
+- **Inbound call handling** — `POST /api/voice/inbound` returns TwiML `<Connect><Stream>` to pipe caller audio to the WebSocket handler; `<Parameter>` elements carry caller/called numbers so the handler can look up the organisation without extra Twilio API calls
+- **WebSocket stream handler** — Custom Node.js server (`server.ts`) upgrades `GET /api/voice/stream` connections; Twilio Media Stream delivers base64 µ-law 8 kHz audio chunks; each chunk is forwarded to a Deepgram live STT connection (`nova-2` model); final transcripts are sent to Claude (`claude-3-5-sonnet-20241022`) with full org context (same context as Phase 6 chat); Claude's reply is synthesised to speech via Deepgram TTS (`aura-asteria-en`, mulaw 8 kHz) and streamed back to the caller as Twilio `media` events
+- **Booking creation from voice** — Claude signals booking intent with a structured `BOOKING:{...}` JSON block; the handler extracts name, service type, urgency, and preferred date, finds or creates the customer (matched by caller phone), inserts a `bookings` row with `source = 'voice'`, and emails the contractor via SendGrid
+- **`POST /api/voice/status`** — Twilio status callback; updates `voice_calls.duration_seconds` and `outcome` for missed/busy/canceled calls
+- **`voice_calls` table** — Every call is recorded on arrival with `twilio_call_sid`, `organization_id`, and `caller_number`; outcome and transcript are updated when the call ends
+- **Settings page — Voice Agent section** — Shows the contractor's Twilio number (`organizations.phone`), enable/disable toggle (`ai_voice_enabled`), and setup instructions for the Twilio webhook URL
+- **Migration `006_phase7_voice.sql`** — Adds `ai_voice_enabled BOOLEAN DEFAULT FALSE` to `organizations`
+- **`DEEPGRAM_API_KEY`** — Added to `.env.local.example` with documentation comment
+- **Custom server** — `apps/web/server.ts` (tsx) wraps Next.js with a `ws` WebSocket server; `dev` and `start` scripts updated accordingly
+
+### Phase 8 — Coming Next
+- Social media scheduling, marketing website, app store launch
 
 ## Tech Stack
 
@@ -182,6 +193,9 @@ INTERNAL_API_SECRET=               # Random secret for Bearer auth on /api/notif
 
 # AI Agents (Phase 6+ — Claude chat)
 ANTHROPIC_API_KEY=                 # Claude API key — from console.anthropic.com
+
+# AI Voice Agent (Phase 7 — Deepgram STT + TTS)
+DEEPGRAM_API_KEY=                  # Deepgram API key — from console.deepgram.com
 
 # App
 NEXT_PUBLIC_APP_URL=               # Your app URL (http://localhost:3000 for dev)

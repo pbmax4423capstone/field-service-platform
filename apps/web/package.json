@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "tsx server.ts",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production tsx server.ts",
     "typecheck": "tsc --noEmit",
     "lint": "next lint"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.95.1",
+    "@deepgram/sdk": "^5.1.0",
     "@field-service/api-client": "workspace:*",
     "@field-service/shared": "workspace:*",
     "@field-service/ui": "workspace:*",
@@ -32,6 +33,7 @@
     "recharts": "^2.15.3",
     "stripe": "^22.1.1",
     "twilio": "^6.0.2",
+    "ws": "^8.20.0",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -40,7 +42,9 @@
     "@types/pdfkit": "^0.17.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

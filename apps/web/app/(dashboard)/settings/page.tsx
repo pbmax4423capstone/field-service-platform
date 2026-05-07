@@ -161,6 +161,69 @@ export default async function SettingsPage({ searchParams }: PageProps) {
         </div>
       </div>
 
+      {/* Voice Agent */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="font-semibold text-gray-900">Voice Agent</h2>
+          <div className="relative">
+            <input
+              type="checkbox"
+              defaultChecked={org?.ai_voice_enabled ?? false}
+              className="sr-only peer"
+              id="voice-agent-toggle"
+            />
+            <label
+              htmlFor="voice-agent-toggle"
+              className="flex items-center cursor-pointer w-11 h-6 bg-gray-200 peer-checked:bg-blue-600 rounded-full peer-focus:ring-2 peer-focus:ring-blue-300 transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"
+            />
+          </div>
+        </div>
+        <p className="text-sm text-gray-500 mb-4">
+          Answers inbound calls 24/7 using AI — transcribes speech, responds with a voice, and
+          books appointments automatically.
+        </p>
+
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+              <span className="text-blue-600 text-sm">📞</span>
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Your Twilio Number
+              </p>
+              <p className="text-sm font-semibold text-gray-900 tabular-nums">
+                {org?.phone ?? (
+                  <span className="font-normal text-gray-400 italic">
+                    Not set — add a phone number in Business Profile above
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+            <p className="text-xs font-semibold text-amber-800 mb-1">Twilio Setup Required</p>
+            <p className="text-xs text-amber-700 leading-relaxed">
+              In your{' '}
+              <a
+                href="https://console.twilio.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                Twilio Console
+              </a>
+              , set the <strong>A CALL COMES IN</strong> webhook on your number to:
+            </p>
+            <code className="mt-1.5 block text-xs bg-amber-100 text-amber-900 rounded px-2 py-1 break-all">
+              {(process.env.NEXT_PUBLIC_APP_URL ?? 'https://your-app.com').replace(/\/$/, '')}
+              /api/voice/inbound
+            </code>
+          </div>
+        </div>
+      </div>
+
       {/* Stripe Payments */}
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <div className="flex items-center justify-between mb-4">
