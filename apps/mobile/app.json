@@ -12,17 +12,36 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.fieldpro.app"
+      "bundleIdentifier": "com.fieldpro.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "FieldPro uses your camera to take before and after photos of jobs.",
+        "NSPhotoLibraryUsageDescription": "FieldPro accesses your photo library to attach job photos.",
+        "NSPhotoLibraryAddUsageDescription": "FieldPro saves job photos to your photo library."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#2563EB"
       },
-      "package": "com.fieldpro.app"
+      "package": "com.fieldpro.app",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE"
+      ]
     },
     "plugins": [
       "expo-router",
       "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "FieldPro accesses your photos to attach job photos.",
+          "cameraPermission": "FieldPro uses your camera to take before and after job photos."
+        }
+      ],
       [
         "expo-notifications",
         {

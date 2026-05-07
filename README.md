@@ -7,7 +7,7 @@ A full-stack SaaS platform for HVAC contractors. Multi-tenant, built on Next.js 
 ```
 /apps
   /web          — Next.js 16 dashboard (contractor-facing)
-  /mobile       — React Native + Expo app (technician-facing) [Phase 4]
+  /mobile       — React Native + Expo app (technician-facing) ✅
   /widget       — Embeddable booking widget (customer-facing) [Phase 5]
   /marketing    — Platform marketing site [Phase 8]
 /packages
@@ -42,6 +42,7 @@ pnpm install
    - `supabase/migrations/002_rls_policies.sql`
    - `supabase/migrations/003_auth_setup.sql`
    - `supabase/migrations/004_phase3_payments.sql`
+   - `supabase/migrations/005_phase4_mobile.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -105,8 +106,17 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
 - **New Estimate modal** — Same as invoice modal with valid-until date instead of due date
 - **Payment link copy** — One-click copy of the public payment URL from the invoice detail page
 
-### Phases 4-8 — Coming Next
-- Phase 4: Mobile app (Expo) for technicians
+### Phase 4 ✅ — Mobile App (Expo) for Technicians
+- **Auth** — Supabase Auth login with session persistence; auto-redirect on login/logout; logout from More tab
+- **Today tab** — Jobs assigned to the technician scheduled today; job title, customer name, address (tap-to-navigate), phone (tap-to-call), time, status badge; pull-to-refresh
+- **Jobs tab** — Full job list filtered to technician's jobs; filterable by status (All, Scheduled, Dispatched, En Route, In Progress, Completed); tap to open job detail
+- **Job detail screen** — Customer info, address with "Open in Maps" button, scheduled time, description, status update buttons (advances through valid transitions: scheduled → dispatched → en route → in progress → completed), add notes, before/after photo capture (camera or library) via expo-image-picker uploaded to Supabase Storage, existing line items with subtotal
+- **Customers tab** — Searchable customer list; tap to open customer detail
+- **Customer detail** — Profile card with call/email buttons, contact info, address list, equipment list (type/make/model/serial/warranty), full service history with job links
+- **More tab** — Technician profile (name, email, phone), push notification status badge, app version display, sign-out with confirmation
+- **Push notifications** — Expo push token registered on app open and saved to `users.expo_push_token` (delivery coming in Phase 5)
+
+### Phases 5-8 — Coming Next
 - Phase 5: Twilio/SendGrid notifications + embeddable booking widget
 - Phase 6: AI chat agent (Claude API)
 - Phase 7: AI voice agent (Twilio + Deepgram + OpenAI TTS)
