@@ -15,6 +15,7 @@ import {
   Settings,
   Wrench,
   MessageSquare,
+  Share2,
 } from 'lucide-react'
 
 const navItems = [
@@ -26,6 +27,7 @@ const navItems = [
   { href: '/price-book', label: 'Price Book', icon: BookOpen },
   { href: '/bookings', label: 'Bookings', icon: CalendarCheck },
   { href: '/notifications', label: 'Notifications', icon: Bell },
+  { href: '/social', label: 'Social', icon: Share2 },
   { href: '/chat', label: 'AI Chat', icon: MessageSquare },
   { href: '/settings', label: 'Settings', icon: Settings },
 ]

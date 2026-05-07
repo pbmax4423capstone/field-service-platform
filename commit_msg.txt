@@ -1,0 +1,32 @@
+feat(phase7): AI voice agent -- Twilio Media Streams + Deepgram STT/TTS + Claude
+
+Custom Node.js server (server.ts + tsx) adds WebSocket support alongside
+Next.js; all HTTP traffic still handled by Next.js App Router.
+
+POST /api/voice/inbound returns TwiML Connect/Stream to pipe caller
+audio to wss://app/api/voice/stream; passes From/To numbers as Parameter
+elements so the WS handler can resolve the org without extra API calls.
+
+GET /api/voice/stream WebSocket handler (lib/voice-stream.ts):
+  Forwards Twilio mulaw 8 kHz audio chunks to Deepgram nova-2 live STT.
+  On final transcript, calls Claude claude-3-5-sonnet-20241022 with full
+  org context (same shape as Phase 6 chat).
+  Detects BOOKING:{...} intent signal; creates customers and bookings rows
+  (source=voice) and emails contractor via SendGrid.
+  Synthesises Claude reply via Deepgram TTS (aura-asteria-en, mulaw 8 kHz)
+  and sends audio back to caller as Twilio media events.
+
+POST /api/voice/status Twilio status callback; persists duration_seconds
+and updates outcome for missed/busy/canceled calls.
+
+Migration 006_phase7_voice.sql adds ai_voice_enabled BOOLEAN to orgs.
+
+Settings page new Voice Agent section: phone number display, enable toggle,
+Twilio webhook setup instructions.
+
+lib/admin-supabase.ts standalone admin client safe to import from server.ts
+(does not import next/headers).
+
+DEEPGRAM_API_KEY added to .env.local.example.
+next.config.ts ws and @deepgram/sdk added to serverExternalPackages.
+README updated: Phase 7 complete, migration list, env var reference.

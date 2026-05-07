@@ -44,6 +44,7 @@ pnpm install
    - `supabase/migrations/004_phase3_payments.sql`
    - `supabase/migrations/005_phase4_mobile.sql`
    - `supabase/migrations/006_phase7_voice.sql`
+   - `supabase/migrations/007_phase8_social.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -149,8 +150,22 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
 - **`DEEPGRAM_API_KEY`** — Added to `.env.local.example` with documentation comment
 - **Custom server** — `apps/web/server.ts` (tsx) wraps Next.js with a `ws` WebSocket server; `dev` and `start` scripts updated accordingly
 
-### Phase 8 — Coming Next
-- Social media scheduling, marketing website, app store launch
+### Phase 8 ✅ — Marketing Site & Social Media Scheduling
+- **Marketing site** (`apps/marketing`) — Public-facing Next.js 16 app on port 3001; shares `@field-service/ui` and `@field-service/shared`; fully static, no auth required
+  - `/` — Hero + features grid (8 features) + 3-tier pricing section + testimonials + footer
+  - `/features` — Expanded detail page for all 8 features with bullet lists
+  - `/pricing` — Full pricing page with FAQ and plan comparison
+  - Dark header with FieldPro brand (#2563EB blue), clean professional design with Tailwind CSS v4
+- **Social media scheduling** (`apps/web`) — New "Social" section in the dashboard
+  - `supabase/migrations/007_phase8_social.sql` — Extends `social_platform` enum with `twitter` and `linkedin` (RLS policies already covered in 002)
+  - `/social` — Auth-gated page listing scheduled and published posts; each card shows platform icon (Twitter/X, Facebook, Instagram, LinkedIn), content preview, scheduled date, and status badge
+  - **New Post modal** — Client component with platform selector, 280-char textarea with live counter, datetime-local scheduler; instant-publishes if date is in the past
+  - `POST /api/social/posts` — Auth-protected, Zod-validated; inserts into `social_posts` via `createAdminClient()`
+  - `DELETE /api/social/posts/[id]` — Deletes a scheduled post belonging to the org
+  - **Sidebar** — "Social" link added between Notifications and AI Chat with `Share2` Lucide icon
+
+### Phase 9 — Coming Next
+- App store launch prep, analytics dashboard, multi-location support
 
 ## Tech Stack
 
