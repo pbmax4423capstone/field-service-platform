@@ -131,6 +131,8 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
+  apps/polar-air: {}
+
   apps/web:
     dependencies:
       '@anthropic-ai/sdk':
