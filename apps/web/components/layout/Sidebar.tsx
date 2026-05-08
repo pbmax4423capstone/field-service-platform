@@ -16,10 +16,13 @@ import {
   Wrench,
   MessageSquare,
   Share2,
+  BarChart3,
+  MapPin,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/jobs', label: 'Jobs', icon: Calendar },
   { href: '/customers', label: 'Customers', icon: Users },
   { href: '/invoices', label: 'Invoices', icon: FileText },
@@ -30,6 +33,7 @@ const navItems = [
   { href: '/social', label: 'Social', icon: Share2 },
   { href: '/chat', label: 'AI Chat', icon: MessageSquare },
   { href: '/settings', label: 'Settings', icon: Settings },
+  { href: '/locations', label: 'Locations', icon: MapPin },
 ]
 
 export function Sidebar() {

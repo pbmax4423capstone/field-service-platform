@@ -45,6 +45,7 @@ pnpm install
    - `supabase/migrations/005_phase4_mobile.sql`
    - `supabase/migrations/006_phase7_voice.sql`
    - `supabase/migrations/007_phase8_social.sql`
+   - `supabase/migrations/008_phase9_analytics.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -164,8 +165,20 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
   - `DELETE /api/social/posts/[id]` — Deletes a scheduled post belonging to the org
   - **Sidebar** — "Social" link added between Notifications and AI Chat with `Share2` Lucide icon
 
-### Phase 9 — Coming Next
-- App store launch prep, analytics dashboard, multi-location support
+### Phase 9 ✅ — Analytics Dashboard & Multi-Location Support
+- **Analytics dashboard** (`/analytics`) — Auth-gated page with 4 chart sections powered by Recharts:
+  - **Revenue Over Time** — Monthly bar chart of paid invoice revenue for the last 12 months
+  - **Job Status Breakdown** — Donut chart of all jobs grouped by status
+  - **Top Customers by Revenue** — Horizontal bar chart of top 10 customers by total invoiced amount
+  - **Technician Performance** — Bar chart of jobs completed per technician
+  - All data fetched server-side; brand blue `#2563EB` primary palette; each chart in a rounded card with title + subtitle
+- **Multi-location support** — `locations` table with org-scoped RLS; `location_id` FK added to `jobs`
+  - `/locations` — Auth-gated page listing all org locations; name, address, phone, Primary badge
+  - **Add Location modal** — Client component; name/address/phone/is_primary fields; handles unset-previous-primary logic on submit
+  - `POST /api/locations` — Auth-protected, Zod-validated; admin client insert; unsets existing primary if `is_primary = true`
+  - `DELETE /api/locations/[id]` — Deletes non-primary location; returns `422` if attempting to delete the primary
+- **Navigation** — "Analytics" (BarChart3 icon) added between Dashboard and Jobs; "Locations" (MapPin icon) added after Settings
+- **Migration** `008_phase9_analytics.sql` — `reports` and `locations` tables with full RLS; `location_id` column on `jobs`
 
 ## Tech Stack
 
@@ -229,3 +242,5 @@ NEXT_PUBLIC_APP_URL=               # Your app URL (http://localhost:3000 for dev
 - **Online**: `bookings`, `leads`
 - **AI**: `chat_conversations`, `voice_calls`
 - **Social**: `social_accounts`, `social_posts`
+- **Analytics**: `reports`
+- **Locations**: `locations`
