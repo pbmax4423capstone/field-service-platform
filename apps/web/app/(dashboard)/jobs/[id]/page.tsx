@@ -27,21 +27,29 @@ export default async function JobDetailPage({ params }: PageProps) {
     .eq('id', user!.id)
     .single()
 
-  const { data: job } = await supabase
-    .from('jobs')
-    .select(`
-      *,
-      customers(first_name, last_name, phone, email),
-      customer_addresses(street, city, state, zip, access_notes),
-      users(full_name),
-      job_line_items(*),
-      job_photos(*),
-      job_notes(*, users(full_name)),
-      job_status_history(*, users(full_name))
-    `)
-    .eq('id', id)
-    .eq('organization_id', userData?.organization_id ?? '')
-    .single()
+  const [{ data: job }, { data: technicians }] = await Promise.all([
+    supabase
+      .from('jobs')
+      .select(`
+        *,
+        customers(first_name, last_name, phone, email),
+        customer_addresses(street, city, state, zip, access_notes),
+        users(full_name),
+        job_line_items(*),
+        job_photos(*),
+        job_notes(*, users(full_name)),
+        job_status_history(*, users(full_name))
+      `)
+      .eq('id', id)
+      .eq('organization_id', userData?.organization_id ?? '')
+      .single(),
+    supabase
+      .from('users')
+      .select('id, full_name')
+      .eq('organization_id', userData?.organization_id ?? '')
+      .eq('is_active', true)
+      .order('full_name'),
+  ])
 
   if (!job) notFound()
 
@@ -79,16 +87,19 @@ export default async function JobDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Status Actions */}
-        {allowedTransitions.length > 0 && (
-          <JobStatusActions
-            jobId={job.id}
-            organizationId={job.organization_id}
-            currentStatus={job.status}
-            allowedTransitions={allowedTransitions}
-            userId={userData?.id ?? ''}
-          />
-        )}
+        {/* Status Actions & Edit Button */}
+        <div className="flex items-center gap-3">
+          <EditJobButton job={job} technicians={technicians ?? []} />
+          {allowedTransitions.length > 0 && (
+            <JobStatusActions
+              jobId={job.id}
+              organizationId={job.organization_id}
+              currentStatus={job.status}
+              allowedTransitions={allowedTransitions}
+              userId={userData?.id ?? ''}
+            />
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

@@ -12,6 +12,8 @@ import {
 import { ArrowLeft, User, Phone, Mail, CreditCard } from 'lucide-react'
 import { InvoiceActions } from '@/components/invoices/InvoiceActions'
 import { CopyButton } from '@/components/invoices/CopyButton'
+import { EditInvoiceButton } from '@/components/invoices/EditInvoiceButton'
+import { RecordPaymentButton } from '@/components/invoices/RecordPaymentButton'
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? ''
 
@@ -75,7 +77,18 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to Invoices
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">{invoice.title}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{invoice.title}</h1>
+            <EditInvoiceButton
+              invoice={{
+                id: invoice.id,
+                title: invoice.title,
+                due_date: invoice.due_date,
+                notes: invoice.notes,
+                terms: invoice.terms,
+              }}
+            />
+          </div>
           <div className="flex items-center gap-3 mt-2">
             <span
               className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium text-white"
@@ -321,49 +334,57 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
               <h2 className="font-semibold text-gray-900">Payments</h2>
             </div>
             {payments.length === 0 ? (
-              <p className="text-sm text-gray-400 text-center py-6">No payments recorded</p>
+              <div className="text-center py-6">
+                <p className="text-sm text-gray-400 mb-3">No payments recorded</p>
+                <RecordPaymentButton invoiceId={invoice.id} balanceDue={balanceDue} />
+              </div>
             ) : (
-              <ul className="divide-y divide-gray-100">
-                {payments
-                  .sort(
-                    (a: any, b: any) =>
-                      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-                  )
-                  .map((payment: any) => (
-                    <li key={payment.id} className="px-5 py-3.5">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            {formatCurrency(payment.amount * 100)}
-                          </p>
-                          {payment.method && (
-                            <p className="text-xs text-gray-500 mt-0.5 capitalize">
-                              {payment.method.replace(/_/g, ' ')}
+              <>
+                <ul className="divide-y divide-gray-100">
+                  {payments
+                    .sort(
+                      (a: any, b: any) =>
+                        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+                    )
+                    .map((payment: any) => (
+                      <li key={payment.id} className="px-5 py-3.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">
+                              {formatCurrency(payment.amount * 100)}
                             </p>
-                          )}
+                            {payment.method && (
+                              <p className="text-xs text-gray-500 mt-0.5 capitalize">
+                                {payment.method.replace(/_/g, ' ')}
+                              </p>
+                            )}
+                          </div>
+                          <div className="text-right shrink-0">
+                            {payment.status && (
+                              <span
+                                className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                  payment.status === 'succeeded'
+                                    ? 'bg-green-100 text-green-700'
+                                    : payment.status === 'failed'
+                                      ? 'bg-red-100 text-red-700'
+                                      : 'bg-gray-100 text-gray-600'
+                                }`}
+                              >
+                                {payment.status}
+                              </span>
+                            )}
+                            <p className="text-xs text-gray-400 mt-1">
+                              {formatDateTime(payment.created_at)}
+                            </p>
+                          </div>
                         </div>
-                        <div className="text-right shrink-0">
-                          {payment.status && (
-                            <span
-                              className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                                payment.status === 'succeeded'
-                                  ? 'bg-green-100 text-green-700'
-                                  : payment.status === 'failed'
-                                    ? 'bg-red-100 text-red-700'
-                                    : 'bg-gray-100 text-gray-600'
-                              }`}
-                            >
-                              {payment.status}
-                            </span>
-                          )}
-                          <p className="text-xs text-gray-400 mt-1">
-                            {formatDateTime(payment.created_at)}
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
+                      </li>
+                    ))}
+                </ul>
+                <div className="px-5 py-3 border-t border-gray-100">
+                  <RecordPaymentButton invoiceId={invoice.id} balanceDue={balanceDue} />
+                </div>
+              </>
             )}
           </div>
         </div>
