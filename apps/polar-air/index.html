@@ -355,8 +355,7 @@ footer { background: #050E1A; color: var(--ice-200); padding: 60px 24px 28px; }
     <div>
       <span class="eyebrow">
         <span class="dot"></span>
-        <!-- CLIENT_TODO: Replace with real years in business -->
-        Mobile, AL &middot; Serving the Gulf Coast
+        Mobile, AL &middot; Built on 15 Years of Gulf Coast Experience
       </span>
       <h1>
         Cool comfort<br>
@@ -378,8 +377,7 @@ footer { background: #050E1A; color: var(--ice-200); padding: 60px 24px 28px; }
         </a>
       </div>
       <div class="hero-trust">
-        <!-- CLIENT_TODO: Replace all bracketed values with real data -->
-        <div class="trust-item"><div class="num">CLIENT_TODO</div><div class="label">Years Local</div></div>
+        <div class="trust-item"><div class="num">15</div><div class="label">Years Experience</div></div>
         <div class="trust-item"><div class="num">CLIENT_TODO</div><div class="label">Google Reviews</div></div>
         <div class="trust-item"><div class="num">CLIENT_TODO</div><div class="label">Homes Served</div></div>
         <div class="trust-item"><div class="num">24/7</div><div class="label">Emergency</div></div>
@@ -499,7 +497,7 @@ footer { background: #050E1A; color: var(--ice-200); padding: 60px 24px 28px; }
     <div>
       <div class="section-eyebrow" style="color: var(--ice-300);">The Polar Air difference</div>
       <h2>Why Mobile homeowners<br>keep <em>calling us back.</em></h2>
-      <p>We're not a national chain. We're a family business that lives here, services here, and answers to our neighbors. When something goes wrong, the owner picks up the phone.</p>
+      <p>We're not a national chain. We're a family business that lives here, services here, and answers to our neighbors. With 15 years of hands-on Gulf Coast HVAC experience, we know what Mobile summers demand — and we show up ready.</p>
       <button class="cta-btn" style="margin-top: 12px;" onclick="document.getElementById('testimonials').scrollIntoView({behavior:'smooth'})">
         Read our reviews
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -787,13 +785,13 @@ footer { background: #050E1A; color: var(--ice-200); padding: 60px 24px 28px; }
 </footer>
 
 <!-- PWA install banner -->
-<div class="pwa-banner" id="pwaBanner">
+<div class="pwa-banner" id="pwaBanner" style="display:none;">
   <div class="pwa-banner-icon">PA</div>
   <div class="pwa-banner-text">
     <strong>Get the Polar Air app</strong>
     <span>Book service, track visits, get reminders</span>
   </div>
-  <button onclick="document.getElementById('pwaBanner').style.display='none'">Install</button>
+  <button id="pwaInstallBtn">Install</button>
   <button class="close" onclick="document.getElementById('pwaBanner').style.display='none'">&times;</button>
 </div>
 
@@ -862,8 +860,38 @@ async function submitContactForm() {
 }
 </script>
 
-<!-- Service Worker registration -->
+<!-- Service Worker registration + PWA install prompt -->
 <script>
+var deferredInstallPrompt = null;
+
+// Capture the browser's native install prompt before it fires
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  // Show our custom banner only when the browser says the app is installable
+  document.getElementById('pwaBanner').style.display = 'flex';
+});
+
+document.getElementById('pwaInstallBtn').addEventListener('click', function() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function(result) {
+      deferredInstallPrompt = null;
+      document.getElementById('pwaBanner').style.display = 'none';
+    });
+  } else {
+    // Fallback for iOS (no beforeinstallprompt support)
+    alert('To install: tap the Share button in Safari, then choose "Add to Home Screen".');
+    document.getElementById('pwaBanner').style.display = 'none';
+  }
+});
+
+// Hide banner after app is installed
+window.addEventListener('appinstalled', function() {
+  document.getElementById('pwaBanner').style.display = 'none';
+  deferredInstallPrompt = null;
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('sw.js')
@@ -874,7 +902,7 @@ if ('serviceWorker' in navigator) {
 </script>
 
 <!-- FieldPro / DispatchForce AI Booking Widget -->
-<script src="widget.js" data-org-slug="polar-air" async></script>
+<script src="widget.js" data-org-slug="polar-air" data-api-base="http://localhost:3000" async></script>
 
 </body>
 </html>
