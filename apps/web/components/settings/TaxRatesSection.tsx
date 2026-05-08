@@ -116,6 +116,12 @@ export function TaxRatesSection({ taxRates: initialTaxRates }: Props) {
         setStatus('error')
         setErrorMsg(result.error ?? 'Failed to save')
       } else {
+        const saved: TaxRate = result.data
+        if (editingId) {
+          setTaxRates((prev) => prev.map((r) => (r.id === editingId ? saved : r)))
+        } else {
+          setTaxRates((prev) => [...prev, saved])
+        }
         router.refresh()
         resetForm()
         setStatus('idle')
@@ -141,6 +147,7 @@ export function TaxRatesSection({ taxRates: initialTaxRates }: Props) {
         setStatus('error')
         setErrorMsg(data.error ?? 'Failed to delete')
       } else {
+        setTaxRates((prev) => prev.filter((r) => r.id !== id))
         router.refresh()
         setStatus('idle')
       }

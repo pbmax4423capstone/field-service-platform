@@ -2,6 +2,7 @@ import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { StripeConnectButton } from '@/components/settings/StripeConnectButton'
 import { BusinessProfileForm } from '@/components/settings/BusinessProfileForm'
 import { TaxRatesSection } from '@/components/settings/TaxRatesSection'
+import { AIFeaturesToggle } from '@/components/settings/AIFeaturesToggle'
 import { CheckCircle, AlertCircle } from 'lucide-react'
 
 interface PageProps {
@@ -69,45 +70,10 @@ export default async function SettingsPage({ searchParams }: PageProps) {
         <h2 className="font-semibold text-gray-900 mb-1">AI Features</h2>
         <p className="text-sm text-gray-500 mb-4">Configure AI chat and voice agents for your website</p>
 
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
-            <div>
-              <p className="text-sm font-medium text-gray-900">AI Chat Agent</p>
-              <p className="text-xs text-gray-500">Chat widget on your website that books appointments</p>
-            </div>
-            <div className="relative">
-              <input
-                type="checkbox"
-                defaultChecked={org?.ai_chat_enabled ?? false}
-                className="sr-only peer"
-                id="chat-toggle"
-              />
-              <label
-                htmlFor="chat-toggle"
-                className="flex items-center cursor-pointer w-11 h-6 bg-gray-200 peer-checked:bg-blue-600 rounded-full peer-focus:ring-2 peer-focus:ring-blue-300 transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
-            <div>
-              <p className="text-sm font-medium text-gray-900">AI Voice Agent</p>
-              <p className="text-xs text-gray-500">Answers phone calls and books appointments 24/7</p>
-            </div>
-            <div className="relative">
-              <input
-                type="checkbox"
-                defaultChecked={org?.ai_voice_enabled ?? false}
-                className="sr-only peer"
-                id="voice-toggle"
-              />
-              <label
-                htmlFor="voice-toggle"
-                className="flex items-center cursor-pointer w-11 h-6 bg-gray-200 peer-checked:bg-blue-600 rounded-full peer-focus:ring-2 peer-focus:ring-blue-300 transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"
-              />
-            </div>
-          </div>
-        </div>
+        <AIFeaturesToggle
+          aiChatEnabled={org?.ai_chat_enabled ?? false}
+          aiVoiceEnabled={org?.ai_voice_enabled ?? false}
+        />
       </div>
 
       {/* Voice Agent */}

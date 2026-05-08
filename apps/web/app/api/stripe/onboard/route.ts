@@ -33,7 +33,7 @@ export async function POST() {
     if (!accountId) {
       const account = await stripe.accounts.create({
         type: 'express',
-        email: org.email ?? undefined,
+        email: org.email || undefined,
         business_profile: {
           name: org.name,
           mcc: '7699', // Repair services
