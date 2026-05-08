@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { PRICE_BOOK_CATEGORIES, formatCurrency } from '@field-service/shared'
-import { Plus } from 'lucide-react'
+import { AddItemButton } from '@/components/price-book/AddItemModal'
 
 export default async function PriceBookPage() {
   const supabase = await createServerSupabaseClient()
@@ -35,10 +35,7 @@ export default async function PriceBookPage() {
           <h1 className="text-2xl font-bold text-gray-900">Price Book</h1>
           <p className="text-sm text-gray-500 mt-0.5">{(items ?? []).length} active services & parts</p>
         </div>
-        <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-          <Plus className="w-4 h-4" />
-          Add Item
-        </button>
+        <AddItemButton />
       </div>
 
       <div className="space-y-6">
@@ -111,10 +108,7 @@ export default async function PriceBookPage() {
         {(items ?? []).length === 0 && (
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <p className="text-gray-400 text-sm mb-4">Your price book is empty.</p>
-            <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors mx-auto">
-              <Plus className="w-4 h-4" />
-              Add your first service
-            </button>
+            <AddItemButton label="Add your first service" />
           </div>
         )}
       </div>
