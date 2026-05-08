@@ -6,7 +6,7 @@ import { TopCustomersChart } from '@/components/analytics/TopCustomersChart'
 import { TechnicianChart } from '@/components/analytics/TechnicianChart'
 
 export const metadata = {
-  title: 'Analytics — FieldPro',
+  title: 'Analytics — DispatchForce AI',
 }
 
 // ──────────────────────────────────────────────────────────

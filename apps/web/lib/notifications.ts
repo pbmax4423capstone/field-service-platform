@@ -60,7 +60,7 @@ export async function sendSms(to: string, body: string): Promise<string | null> 
 const BRAND_BLUE = '#2563EB'
 
 function getFromEmail() {
-  return process.env.SENDGRID_FROM_EMAIL || 'noreply@fieldpro.app'
+  return process.env.SENDGRID_FROM_EMAIL || 'noreply@dispatchforceai.com'
 }
 
 export async function sendEmail(opts: {
@@ -94,7 +94,7 @@ function buildEmailHtml(title: string, body: string): string {
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
         <tr>
           <td style="background:${BRAND_BLUE};padding:24px 32px;">
-            <span style="color:#fff;font-size:22px;font-weight:700;letter-spacing:-0.5px;">FieldPro</span>
+            <span style="color:#fff;font-size:22px;font-weight:700;letter-spacing:-0.5px;">DispatchForce AI</span>
           </td>
         </tr>
         <tr>
@@ -105,7 +105,7 @@ function buildEmailHtml(title: string, body: string): string {
         </tr>
         <tr>
           <td style="padding:16px 32px;background:#f9fafb;border-top:1px solid #e5e7eb;">
-            <p style="margin:0;color:#9ca3af;font-size:12px;">Sent by FieldPro · <a href="https://fieldpro.app" style="color:${BRAND_BLUE};text-decoration:none;">fieldpro.app</a></p>
+            <p style="margin:0;color:#9ca3af;font-size:12px;">Sent by DispatchForce AI</p>
           </td>
         </tr>
       </table>

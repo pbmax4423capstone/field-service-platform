@@ -275,7 +275,7 @@ export default function PayPage({ params }: { params: Promise<{ token: string }>
             <Wrench className="w-4 h-4 text-white" />
           </div>
           <div>
-            <p className="font-semibold text-gray-900 text-sm">{org?.name ?? 'FieldPro'}</p>
+            <p className="font-semibold text-gray-900 text-sm">{org?.name ?? 'DispatchForce AI'}</p>
             {(org?.phone || org?.email) && (
               <p className="text-xs text-gray-500">{org?.phone ?? org?.email}</p>
             )}
@@ -422,7 +422,7 @@ export default function PayPage({ params }: { params: Promise<{ token: string }>
       </main>
 
       <footer className="text-center py-8 text-xs text-gray-400">
-        Powered by FieldPro · Payments secured by Stripe
+        Powered by DispatchForce AI · Payments secured by Stripe
       </footer>
     </div>
   )

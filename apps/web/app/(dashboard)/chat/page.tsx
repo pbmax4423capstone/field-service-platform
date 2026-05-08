@@ -1,7 +1,7 @@
 import { ChatInterface } from '@/components/chat/ChatInterface'
 
 export const metadata = {
-  title: 'AI Assistant — FieldPro',
+  title: 'AI Assistant — DispatchForce AI',
 }
 
 export default function ChatPage() {

@@ -130,7 +130,7 @@ async function notifyBookingByEmail(
   if (!apiKey) return
   sgMail.setApiKey(apiKey)
 
-  const from = process.env.SENDGRID_FROM_EMAIL || 'noreply@fieldpro.app'
+  const from = process.env.SENDGRID_FROM_EMAIL || 'noreply@dispatchforceai.com'
   const urgencyLabel = { emergency: '🚨 Emergency', soon: 'Soon', flexible: 'Flexible' }[booking.urgency] ?? booking.urgency
 
   const html = `
@@ -143,7 +143,7 @@ async function notifyBookingByEmail(
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
         <tr>
           <td style="background:${BRAND_BLUE};padding:24px 32px;">
-            <span style="color:#fff;font-size:22px;font-weight:700;">FieldPro — New Voice Booking</span>
+            <span style="color:#fff;font-size:22px;font-weight:700;">DispatchForce AI — New Voice Booking</span>
           </td>
         </tr>
         <tr>
@@ -157,7 +157,7 @@ async function notifyBookingByEmail(
               ${booking.preferredDate ? `<tr><td style="padding:8px 0;color:#6b7280;">Preferred Date</td><td style="padding:8px 0;color:#111827;">${booking.preferredDate}</td></tr>` : ''}
               <tr><td style="padding:8px 0;color:#6b7280;">Summary</td><td style="padding:8px 0;color:#111827;">${booking.summary}</td></tr>
             </table>
-            <p style="margin:24px 0 0;color:#6b7280;font-size:14px;">Log in to your FieldPro dashboard to approve or schedule this booking.</p>
+            <p style="margin:24px 0 0;color:#6b7280;font-size:14px;">Log in to your DispatchForce AI dashboard to approve or schedule this booking.</p>
           </td>
         </tr>
       </table>
@@ -216,7 +216,7 @@ export async function handleVoiceStream(ws: WebSocket, req: IncomingMessage): Pr
     toNumber: toParam,
     orgId: null,
     orgEmail: null,
-    orgName: 'FieldPro',
+    orgName: 'DispatchForce AI',
     voiceCallId: null,
     systemPrompt: null,
     conversationHistory: [],
@@ -467,7 +467,7 @@ export async function handleVoiceStream(ws: WebSocket, req: IncomingMessage): Pr
         }
 
         state.orgId = org.id
-        state.orgName = org.name ?? 'FieldPro'
+        state.orgName = org.name ?? 'DispatchForce AI'
         state.orgEmail = org.email ?? null
 
         // Record the call

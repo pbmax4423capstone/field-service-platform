@@ -72,7 +72,7 @@ export async function GET(_req: NextRequest, { params }: RouteParams) {
       .fontSize(24)
       .font('Helvetica-Bold')
       .fillColor('#1e40af')
-      .text(org?.name ?? 'FieldPro', 50, 50)
+      .text(org?.name ?? 'DispatchForce AI', 50, 50)
 
     doc
       .fontSize(10)

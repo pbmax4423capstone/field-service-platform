@@ -2,7 +2,7 @@ import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { SocialFeed } from '@/components/social/social-feed'
 
 export const metadata = {
-  title: 'Social Media — FieldPro',
+  title: 'Social Media — DispatchForce AI',
 }
 
 export default async function SocialPage() {

@@ -47,7 +47,7 @@ export function Sidebar() {
           <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
             <Wrench className="w-4 h-4 text-white" />
           </div>
-          <span className="text-white font-semibold text-sm">FieldPro</span>
+          <span className="text-white font-semibold text-sm">DispatchForce AI</span>
         </div>
       </div>
 
@@ -75,7 +75,7 @@ export function Sidebar() {
 
       {/* Bottom */}
       <div className="p-3 border-t border-gray-800">
-        <p className="text-xs text-gray-600 px-3">FieldPro v0.1</p>
+        <p className="text-xs text-gray-600 px-3">DispatchForce AI v0.1</p>
       </div>
     </aside>
   )

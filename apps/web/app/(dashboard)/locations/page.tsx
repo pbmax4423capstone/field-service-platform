@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { LocationsList } from '@/components/locations/LocationsList'
 
 export const metadata = {
-  title: 'Locations — FieldPro',
+  title: 'Locations — DispatchForce AI',
 }
 
 export default async function LocationsPage() {

@@ -150,7 +150,7 @@ ${invoices
 Use the provided tools when the user asks for specific job or customer details. Answer concisely and helpfully.
 
 APP USAGE GUIDE:
-You can also help users understand how to use this FieldPro app. Here are the key features and how to use them:
+You can also help users understand how to use this DispatchForce AI app. Here are the key features and how to use them:
 
 CUSTOMERS: Go to the Customers page to view all customers. Click "Add Customer" to create a new customer with their contact info and service address. Click a customer's name to view their full history including jobs, invoices, and equipment.
 
