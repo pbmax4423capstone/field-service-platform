@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { X, Twitter, Facebook, Instagram, Linkedin, Send } from 'lucide-react'
+import { X, Facebook, Instagram, Video, Send } from 'lucide-react'
 
-type Platform = 'twitter' | 'facebook' | 'instagram' | 'linkedin'
+type Platform = 'facebook' | 'instagram' | 'tiktok'
 
 interface NewPostModalProps {
   onClose: () => void
@@ -11,16 +11,15 @@ interface NewPostModalProps {
 }
 
 const PLATFORM_OPTIONS: { value: Platform; label: string; icon: React.ElementType; color: string }[] = [
-  { value: 'twitter', label: 'Twitter / X', icon: Twitter, color: 'text-sky-500' },
   { value: 'facebook', label: 'Facebook', icon: Facebook, color: 'text-blue-600' },
   { value: 'instagram', label: 'Instagram', icon: Instagram, color: 'text-pink-500' },
-  { value: 'linkedin', label: 'LinkedIn', icon: Linkedin, color: 'text-blue-700' },
+  { value: 'tiktok', label: 'TikTok', icon: Video, color: 'text-gray-900' },
 ]
 
 const MAX_CHARS = 280
 
 export function NewPostModal({ onClose, onCreated }: NewPostModalProps) {
-  const [platform, setPlatform] = useState<Platform>('twitter')
+  const [platform, setPlatform] = useState<Platform>('facebook')
   const [content, setContent] = useState('')
   const [scheduledFor, setScheduledFor] = useState('')
   const [error, setError] = useState<string | null>(null)

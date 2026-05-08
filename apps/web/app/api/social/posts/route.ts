@@ -4,7 +4,7 @@ import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { createAdminClient } from '@/lib/admin-supabase'
 
 const bodySchema = z.object({
-  platform: z.enum(['twitter', 'facebook', 'instagram', 'linkedin']),
+  platform: z.enum(['facebook', 'instagram', 'tiktok']),
   content: z.string().min(1).max(280),
   scheduled_for: z.string().nullable().optional(),
 })
