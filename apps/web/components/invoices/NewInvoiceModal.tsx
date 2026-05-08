@@ -48,6 +48,7 @@ export function NewInvoiceModal({ customers }: Props) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loadingTaxRate, setLoadingTaxRate] = useState(false)
+  const [taxRateMsg, setTaxRateMsg] = useState<string | null>(null)
 
   const {
     register,
@@ -84,31 +85,38 @@ export function NewInvoiceModal({ customers }: Props) {
     0,
   )
 
-  const rate = Number(watchedTaxRate) || 0
+  const rate = (Number(watchedTaxRate) || 0) / 100   // field stores %, convert to decimal
   const taxAmount = taxableSubtotal * rate
   const total = subtotal + taxAmount
 
   // Auto-suggest tax rate when customer changes
   useEffect(() => {
-    if (!watchedCustomerId) return
+    if (!watchedCustomerId) {
+      setTaxRateMsg(null)
+      return
+    }
 
     const fetchAndSuggestTaxRate = async () => {
       try {
         setLoadingTaxRate(true)
+        setTaxRateMsg(null)
 
-        // First, fetch the customer's addresses
         const addressRes = await fetch(`/api/customer-addresses?customer_id=${watchedCustomerId}`)
         if (!addressRes.ok) return
 
         const addressData = await addressRes.json()
         const addresses = addressData.data as CustomerAddress[]
-        if (!addresses || addresses.length === 0) return
+        if (!addresses || addresses.length === 0) {
+          setTaxRateMsg('No address on file for this customer.')
+          return
+        }
 
-        // Get the primary/first address
         const primaryAddress = addresses[0]
-        if (!primaryAddress.state) return
+        if (!primaryAddress.state) {
+          setTaxRateMsg('Customer address has no state — cannot look up tax rate.')
+          return
+        }
 
-        // Build query string for tax rate suggestion
         const params = new URLSearchParams({ state: primaryAddress.state })
         if (primaryAddress.city) params.append('city', primaryAddress.city)
         if (primaryAddress.zip) params.append('zip', primaryAddress.zip)
@@ -118,13 +126,13 @@ export function NewInvoiceModal({ customers }: Props) {
 
         const suggestData = await suggestRes.json()
         if (suggestData.data?.rate) {
-          // Only auto-fill if current tax_rate is 0/empty
-          if (!watchedTaxRate) {
-            setValue('tax_rate', suggestData.data.rate)
-          }
+          // Store as percentage (UI) — convert decimal to %
+          setValue('tax_rate', parseFloat((suggestData.data.rate * 100).toFixed(4)))
+          setTaxRateMsg(`Auto-filled: ${suggestData.data.name} (${(suggestData.data.rate * 100).toFixed(2)}%)`)
+        } else {
+          setTaxRateMsg(`No tax rate configured for ${primaryAddress.state}. Add one in Settings → Tax Rates.`)
         }
       } catch (err) {
-        // Silently fail - this is a nice-to-have feature
         console.error('Failed to suggest tax rate:', err)
       } finally {
         setLoadingTaxRate(false)
@@ -132,7 +140,7 @@ export function NewInvoiceModal({ customers }: Props) {
     }
 
     fetchAndSuggestTaxRate()
-  }, [watchedCustomerId, setValue, watchedTaxRate])
+  }, [watchedCustomerId, setValue])
 
   function formatMoney(n: number) {
     return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -150,7 +158,7 @@ export function NewInvoiceModal({ customers }: Props) {
           title: values.title,
           due_date: values.due_date || null,
           notes: values.notes || null,
-          tax_rate: values.tax_rate,
+          tax_rate: (values.tax_rate || 0) / 100,  // convert % to decimal for storage
           line_items: values.line_items,
         }),
       })
@@ -255,19 +263,30 @@ export function NewInvoiceModal({ customers }: Props) {
               {/* Tax Rate */}
               <div>
                 <label className={LABEL_CLS} htmlFor="inv-tax-rate">
-                  Tax Rate (e.g. 0.08 for 8%)
-                  {loadingTaxRate && <span className="text-xs text-gray-500 ml-2">(finding best match…)</span>}
+                  Tax Rate %
+                  {loadingTaxRate && <span className="text-xs text-blue-500 ml-2">Looking up rate…</span>}
                 </label>
-                <input
-                  id="inv-tax-rate"
-                  type="number"
-                  step="0.001"
-                  min="0"
-                  max="1"
-                  placeholder="0"
-                  {...register('tax_rate', { valueAsNumber: true })}
-                  className={INPUT_CLS}
-                />
+                <div className="relative">
+                  <input
+                    id="inv-tax-rate"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    placeholder="0.00"
+                    {...register('tax_rate', { valueAsNumber: true })}
+                    className={INPUT_CLS + ' pr-8'}
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">%</span>
+                </div>
+                {taxRateMsg && (
+                  <p className={`text-xs mt-1 ${taxRateMsg.startsWith('Auto') ? 'text-green-600' : 'text-amber-600'}`}>
+                    {taxRateMsg}
+                    {taxRateMsg.includes('Settings') && (
+                      <a href="/settings" className="ml-1 underline hover:text-amber-800">Go to Settings →</a>
+                    )}
+                  </p>
+                )}
               </div>
 
               {/* Line Items */}
