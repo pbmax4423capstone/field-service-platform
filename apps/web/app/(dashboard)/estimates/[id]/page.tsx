@@ -78,6 +78,14 @@ export default async function EstimateDetailPage({ params }: PageProps) {
                 terms: estimate.terms,
                 valid_until: estimate.valid_until,
               }}
+              lineItems={lineItems.map(li => ({
+                id: li.id,
+                name: li.name,
+                description: li.description,
+                quantity: li.quantity,
+                unit_price: li.unit_price,
+                taxable: li.taxable,
+              }))}
             />
           </div>
           <div className="flex items-center gap-3 mt-2">

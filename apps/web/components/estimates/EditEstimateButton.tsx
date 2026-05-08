@@ -13,9 +13,10 @@ interface EditEstimateButtonProps {
     terms?: string | null
     valid_until?: string | null
   }
+  lineItems?: { id: string; name: string; description?: string | null; quantity: number; unit_price: number; taxable: boolean }[]
 }
 
-export function EditEstimateButton({ estimate }: EditEstimateButtonProps) {
+export function EditEstimateButton({ estimate, lineItems = [] }: EditEstimateButtonProps) {
   const [showModal, setShowModal] = useState(false)
   const router = useRouter()
 
@@ -37,6 +38,7 @@ export function EditEstimateButton({ estimate }: EditEstimateButtonProps) {
       {showModal && (
         <EditEstimateModal
           estimate={estimate}
+          lineItems={lineItems}
           onClose={() => setShowModal(false)}
           onSaved={handleSaved}
         />
