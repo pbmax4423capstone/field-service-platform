@@ -74,7 +74,6 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
         tax_amount: estimate.tax_amount,
         total: estimate.total,
         amount_paid: 0,
-        balance_due: estimate.total,
         created_by: user.id,
       })
       .select()

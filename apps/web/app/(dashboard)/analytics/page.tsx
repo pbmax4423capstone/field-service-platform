@@ -77,7 +77,7 @@ export default async function AnalyticsPage() {
 
   const { data: paidInvoices } = await supabase
     .from('invoices')
-    .select('total_amount, updated_at')
+    .select('total, paid_at, updated_at')
     .eq('organization_id', orgId)
     .eq('status', 'paid')
     .gte('updated_at', twelveMonthsAgo.toISOString())
@@ -86,8 +86,8 @@ export default async function AnalyticsPage() {
   const revenueMap: Record<string, number> = {}
   monthKeys.forEach((k) => (revenueMap[k] = 0))
   ;(paidInvoices ?? []).forEach((inv: any) => {
-    const k = monthKey(new Date(inv.updated_at))
-    if (k in revenueMap) revenueMap[k] += Number(inv.total_amount ?? 0)
+    const k = monthKey(new Date(inv.paid_at ?? inv.updated_at))
+    if (k in revenueMap) revenueMap[k] += Number(inv.total ?? 0)
   })
   const revenueData = monthKeys.map((month) => ({
     month,
@@ -131,13 +131,13 @@ export default async function AnalyticsPage() {
   // ── 4. Technician performance ─────────────────────────────────────────────
   const { data: completedHistory } = await supabase
     .from('job_status_history')
-    .select('changed_by, users!inner(full_name, organization_id)')
-    .eq('new_status', 'completed')
+    .select('user_id, users!inner(full_name, organization_id)')
+    .eq('to_status', 'completed')
     .eq('users.organization_id', orgId)
 
   const techMap: Record<string, { name: string; completed: number }> = {}
   ;(completedHistory ?? []).forEach((h: any) => {
-    const uid = h.changed_by as string
+    const uid = h.user_id as string
     const name = h.users?.full_name ?? 'Unknown'
     if (!techMap[uid]) techMap[uid] = { name, completed: 0 }
     techMap[uid].completed += 1

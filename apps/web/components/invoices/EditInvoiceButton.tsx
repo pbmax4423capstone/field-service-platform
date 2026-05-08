@@ -9,6 +9,7 @@ interface EditInvoiceButtonProps {
   invoice: {
     id: string
     title: string
+    status: string
     due_date?: string | null
     notes?: string | null
     terms?: string | null

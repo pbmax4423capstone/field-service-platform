@@ -7,6 +7,7 @@ interface EditInvoiceModalProps {
   invoice: {
     id: string
     title: string
+    status: string
     due_date?: string | null
     notes?: string | null
     terms?: string | null
@@ -18,6 +19,7 @@ interface EditInvoiceModalProps {
 export function EditInvoiceModal({ invoice, onClose, onSaved }: EditInvoiceModalProps) {
   const [form, setForm] = useState({
     title: invoice.title,
+    invoiceStatus: invoice.status,
     due_date: invoice.due_date ?? '',
     notes: invoice.notes ?? '',
     terms: invoice.terms ?? '',
@@ -44,6 +46,7 @@ export function EditInvoiceModal({ invoice, onClose, onSaved }: EditInvoiceModal
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: form.title,
+          status: form.invoiceStatus,
           due_date: form.due_date || null,
           notes: form.notes || null,
           terms: form.terms || null,
@@ -93,6 +96,23 @@ export function EditInvoiceModal({ invoice, onClose, onSaved }: EditInvoiceModal
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Invoice title"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select
+              name="invoiceStatus"
+              value={form.invoiceStatus}
+              onChange={handleChange as any}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            >
+              <option value="draft">Draft</option>
+              <option value="sent">Sent</option>
+              <option value="viewed">Viewed</option>
+              <option value="paid">Paid</option>
+              <option value="overdue">Overdue</option>
+              <option value="void">Void</option>
+            </select>
           </div>
 
           <div>

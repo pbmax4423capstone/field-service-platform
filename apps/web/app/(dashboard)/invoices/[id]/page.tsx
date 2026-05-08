@@ -83,6 +83,7 @@ export default async function InvoiceDetailPage({ params }: PageProps) {
               invoice={{
                 id: invoice.id,
                 title: invoice.title,
+                status: invoice.status,
                 due_date: invoice.due_date,
                 notes: invoice.notes,
                 terms: invoice.terms,

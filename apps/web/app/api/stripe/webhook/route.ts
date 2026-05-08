@@ -57,14 +57,12 @@ export async function POST(req: NextRequest) {
 
         if (invoice) {
           const newAmountPaid = (invoice.amount_paid ?? 0) + amount
-          const balanceDue = Math.max(0, invoice.total - newAmountPaid)
-          const isPaid = balanceDue <= 0.01
+          const isPaid = newAmountPaid >= invoice.total - 0.01
 
           await supabase
             .from('invoices')
             .update({
               amount_paid: newAmountPaid,
-              balance_due: balanceDue,
               status: isPaid ? 'paid' : 'sent',
               paid_at: isPaid ? new Date().toISOString() : null,
             })

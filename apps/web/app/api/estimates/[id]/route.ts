@@ -11,6 +11,13 @@ const updateEstimateSchema = z.object({
   sent_at: z.string().optional().nullable(),
   accepted_at: z.string().optional().nullable(),
   declined_at: z.string().optional().nullable(),
+  line_items: z.array(z.object({
+    name: z.string(),
+    description: z.string().nullable().optional(),
+    quantity: z.number(),
+    unit_price: z.number(),
+    taxable: z.boolean().optional(),
+  })).optional(),
 })
 
 interface RouteParams {
@@ -59,6 +66,38 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       .single()
 
     if (error) throw error
+
+    // Handle line items update
+    if (parsed.data.line_items !== undefined && Array.isArray(parsed.data.line_items)) {
+      // Delete existing line items
+      await supabase.from('estimate_line_items').delete().eq('estimate_id', id)
+      
+      if (parsed.data.line_items.length > 0) {
+        // Insert new line items
+        const items = parsed.data.line_items.map((li: any, i: number) => ({
+          estimate_id: id,
+          organization_id: userData?.organization_id ?? '',
+          name: li.name,
+          description: li.description || null,
+          quantity: Number(li.quantity) || 1,
+          unit_price: Number(li.unit_price) || 0,
+          taxable: li.taxable ?? false,
+          sort_order: i,
+        }))
+        await supabase.from('estimate_line_items').insert(items)
+        
+        // Recalculate estimate totals
+        const subtotal = items.reduce((s: number, li: any) => s + li.quantity * li.unit_price, 0)
+        const taxRate = estimate?.tax_rate ?? 0
+        const taxAmount = subtotal * taxRate
+        const total = subtotal + taxAmount
+        
+        await supabase
+          .from('estimates')
+          .update({ subtotal, tax_amount: taxAmount, total })
+          .eq('id', id)
+      }
+    }
 
     return NextResponse.json({ estimate })
   } catch (err: any) {

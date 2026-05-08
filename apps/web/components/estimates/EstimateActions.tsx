@@ -79,7 +79,7 @@ export function EstimateActions({ estimateId, status }: Props) {
         </>
       )}
 
-      {status === 'sent' && (
+      {(status === 'draft' || status === 'sent' || status === 'accepted') && (
         <button
           onClick={convertToInvoice}
           disabled={loading}
