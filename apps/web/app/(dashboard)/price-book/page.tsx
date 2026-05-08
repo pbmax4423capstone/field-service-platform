@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { PRICE_BOOK_CATEGORIES, formatCurrency } from '@field-service/shared'
-import { AddItemButton } from '@/components/price-book/AddItemModal'
+import { AddItemButton, EditItemButton } from '@/components/price-book/AddItemModal'
 
 export default async function PriceBookPage() {
   const supabase = await createServerSupabaseClient()
@@ -94,7 +94,7 @@ export default async function PriceBookPage() {
                           </span>
                         </td>
                         <td className="px-5 py-3.5 text-right">
-                          <button className="text-xs text-blue-600 hover:underline">Edit</button>
+                          <EditItemButton item={{ id: item.id, name: item.name, description: item.description, category: item.category, unit_price: item.unit_price, cost: item.cost, taxable: item.taxable }} />
                         </td>
                       </tr>
                     ))}

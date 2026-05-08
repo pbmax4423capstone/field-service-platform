@@ -11,6 +11,7 @@ import {
 } from '@field-service/shared'
 import { ArrowLeft, MapPin, Phone, User, Clock, ChevronRight } from 'lucide-react'
 import { JobStatusActions } from '@/components/jobs/JobStatusActions'
+import { EditJobButton } from '@/components/jobs/EditJobButton'
 
 interface PageProps {
   params: Promise<{ id: string }>

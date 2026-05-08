@@ -10,6 +10,7 @@ import {
   EQUIPMENT_TYPE_LABELS,
 } from '@field-service/shared'
 import { ArrowLeft, Phone, Mail, MapPin, Wrench, Plus } from 'lucide-react'
+import { EditCustomerButton } from '@/components/customers/EditCustomerButton'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -93,9 +94,12 @@ export default async function CustomerDetailPage({ params }: PageProps) {
               )}
             </div>
           </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Total Revenue</p>
-            <p className="text-xl font-bold text-green-600">{formatCurrency(totalRevenue * 100)}</p>
+          <div className="flex items-start gap-4">
+            <div className="text-right">
+              <p className="text-sm text-gray-500">Total Revenue</p>
+              <p className="text-xl font-bold text-green-600">{formatCurrency(totalRevenue * 100)}</p>
+            </div>
+            <EditCustomerButton customer={customer} />
           </div>
         </div>
       </div>
