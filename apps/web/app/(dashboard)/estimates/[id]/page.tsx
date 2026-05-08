@@ -9,6 +9,7 @@ import {
 } from '@field-service/shared'
 import { ArrowLeft, User, Phone, Mail, Clock } from 'lucide-react'
 import { EstimateActions } from '@/components/estimates/EstimateActions'
+import { EditEstimateButton } from '@/components/estimates/EditEstimateButton'
 
 const ESTIMATE_STATUS_COLORS: Record<string, string> = {
   draft: '#6B7280',
@@ -67,7 +68,18 @@ export default async function EstimateDetailPage({ params }: PageProps) {
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to Estimates
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">{estimate.title}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{estimate.title}</h1>
+            <EditEstimateButton
+              estimate={{
+                id: estimate.id,
+                title: estimate.title,
+                notes: estimate.notes,
+                terms: estimate.terms,
+                valid_until: estimate.valid_until,
+              }}
+            />
+          </div>
           <div className="flex items-center gap-3 mt-2">
             <span
               className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium text-white"

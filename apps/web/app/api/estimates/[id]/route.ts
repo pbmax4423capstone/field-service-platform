@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 const updateEstimateSchema = z.object({
   status: z.enum(['draft', 'sent', 'accepted', 'declined', 'expired']).optional(),
+  title: z.string().min(1).optional(),
   notes: z.string().optional().nullable(),
   terms: z.string().optional().nullable(),
   valid_until: z.string().optional().nullable(),

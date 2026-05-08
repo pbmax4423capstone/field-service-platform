@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 const updateInvoiceSchema = z.object({
   status: z.enum(['draft', 'sent', 'viewed', 'paid', 'overdue', 'void']).optional(),
+  title: z.string().min(1).optional(),
   notes: z.string().optional().nullable(),
   terms: z.string().optional().nullable(),
   due_date: z.string().optional().nullable(),
