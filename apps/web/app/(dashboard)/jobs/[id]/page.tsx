@@ -12,6 +12,7 @@ import {
 import { ArrowLeft, MapPin, Phone, User, Clock, ChevronRight } from 'lucide-react'
 import { JobStatusActions } from '@/components/jobs/JobStatusActions'
 import { EditJobButton } from '@/components/jobs/EditJobButton'
+import { AddNoteForm } from '@/components/jobs/AddNoteForm'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -89,7 +90,7 @@ export default async function JobDetailPage({ params }: PageProps) {
 
         {/* Status Actions & Edit Button */}
         <div className="flex items-center gap-3">
-          <EditJobButton job={job} technicians={technicians ?? []} />
+          <EditJobButton job={job} technicians={technicians ?? []} lineItems={lineItems} />
           {allowedTransitions.length > 0 && (
             <JobStatusActions
               jobId={job.id}
@@ -212,6 +213,9 @@ export default async function JobDetailPage({ params }: PageProps) {
           <div className="bg-white rounded-xl border border-gray-200">
             <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="font-semibold text-gray-900">Notes</h2>
+            </div>
+            <div className="px-5 py-4 border-b border-gray-100">
+              <AddNoteForm jobId={job.id} />
             </div>
             {notes.length === 0 ? (
               <p className="text-sm text-gray-400 text-center py-6">No notes yet</p>

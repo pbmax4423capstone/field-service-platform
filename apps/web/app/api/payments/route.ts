@@ -56,9 +56,24 @@ export async function POST(req: NextRequest) {
 
     const totalPaid = (payments ?? []).reduce((sum: number, p: any) => sum + p.amount, 0)
 
+    // Fetch invoice total to determine if fully paid
+    const { data: invoice } = await supabase
+      .from('invoices')
+      .select('total')
+      .eq('id', invoice_id)
+      .eq('organization_id', organization_id)
+      .single()
+
+    const invoiceUpdates: Record<string, unknown> = { amount_paid: totalPaid }
+    const isPaid = invoice && totalPaid >= invoice.total - 0.01
+    if (isPaid) {
+      invoiceUpdates.status = 'paid'
+      invoiceUpdates.paid_at = new Date().toISOString()
+    }
+
     const { error: updateError } = await supabase
       .from('invoices')
-      .update({ amount_paid: totalPaid })
+      .update(invoiceUpdates)
       .eq('id', invoice_id)
       .eq('organization_id', organization_id)
 

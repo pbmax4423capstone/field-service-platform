@@ -16,9 +16,10 @@ interface EditJobButtonProps {
     technician_id?: string | null
   }
   technicians: { id: string; full_name: string }[]
+  lineItems: { id: string; name: string; description?: string | null; quantity: number; unit_price: number }[]
 }
 
-export function EditJobButton({ job, technicians }: EditJobButtonProps) {
+export function EditJobButton({ job, technicians, lineItems }: EditJobButtonProps) {
   const [showModal, setShowModal] = useState(false)
   const router = useRouter()
 
@@ -40,6 +41,7 @@ export function EditJobButton({ job, technicians }: EditJobButtonProps) {
         <EditJobModal
           job={job}
           technicians={technicians}
+          lineItems={lineItems}
           onClose={() => setShowModal(false)}
           onSaved={handleSaved}
         />

@@ -1,7 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { X, Plus, Trash2 } from 'lucide-react'
+
+interface LineItemRow {
+  id?: string
+  name: string
+  description: string
+  quantity: string
+  unit_price: string
+}
 
 interface EditJobModalProps {
   job: {
@@ -14,11 +22,12 @@ interface EditJobModalProps {
     technician_id?: string | null
   }
   technicians: { id: string; full_name: string }[]
+  lineItems: { id: string; name: string; description?: string | null; quantity: number; unit_price: number }[]
   onClose: () => void
   onSaved: () => void
 }
 
-export function EditJobModal({ job, technicians, onClose, onSaved }: EditJobModalProps) {
+export function EditJobModal({ job, technicians, lineItems, onClose, onSaved }: EditJobModalProps) {
   const [form, setForm] = useState({
     title: job.title,
     description: job.description ?? '',
@@ -27,6 +36,15 @@ export function EditJobModal({ job, technicians, onClose, onSaved }: EditJobModa
     scheduled_end: job.scheduled_end ? new Date(job.scheduled_end).toISOString().slice(0, 16) : '',
     technician_id: job.technician_id ?? '',
   })
+  const [items, setItems] = useState<LineItemRow[]>(
+    lineItems.map(li => ({
+      id: li.id,
+      name: li.name,
+      description: li.description ?? '',
+      quantity: String(li.quantity),
+      unit_price: String(li.unit_price),
+    }))
+  )
   const [status, setStatus] = useState<'idle' | 'saving' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -36,6 +54,22 @@ export function EditJobModal({ job, technicians, onClose, onSaved }: EditJobModa
       ...prev,
       [name]: value,
     }))
+  }
+
+  function addItem() {
+    setItems(prev => [...prev, { name: '', description: '', quantity: '1', unit_price: '0' }])
+  }
+
+  function removeItem(idx: number) {
+    setItems(prev => prev.filter((_, i) => i !== idx))
+  }
+
+  function updateItem(idx: number, field: keyof LineItemRow, value: string) {
+    setItems(prev => {
+      const updated = [...prev]
+      updated[idx] = { ...updated[idx], [field]: value }
+      return updated
+    })
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -53,6 +87,16 @@ export function EditJobModal({ job, technicians, onClose, onSaved }: EditJobModa
       if (form.scheduled_start) body.scheduled_start = new Date(form.scheduled_start).toISOString()
       if (form.scheduled_end) body.scheduled_end = new Date(form.scheduled_end).toISOString()
       if (form.technician_id) body.technician_id = form.technician_id
+
+      // Include line items
+      body.line_items = items
+        .filter(li => li.name.trim())
+        .map(li => ({
+          name: li.name.trim(),
+          description: li.description.trim() || undefined,
+          quantity: parseFloat(li.quantity) || 1,
+          unit_price: parseFloat(li.unit_price) || 0,
+        }))
 
       const res = await fetch(`/api/jobs/${job.id}`, {
         method: 'PATCH',
@@ -79,7 +123,7 @@ export function EditJobModal({ job, technicians, onClose, onSaved }: EditJobModa
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6">
+      <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 max-h-[85vh] overflow-y-auto p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold text-gray-900">Edit Job</h2>
           <button
@@ -145,6 +189,70 @@ export function EditJobModal({ job, technicians, onClose, onSaved }: EditJobModa
             </select>
           </div>
 
+          {/* Line Items Section */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium text-gray-700">Line Items</label>
+              <button
+                type="button"
+                onClick={addItem}
+                className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Add Item
+              </button>
+            </div>
+            {items.length === 0 ? (
+              <p className="text-xs text-gray-400 py-2">No line items yet</p>
+            ) : (
+              <div className="space-y-2 border border-gray-200 rounded-lg p-3 bg-gray-50">
+                {items.map((item, idx) => (
+                  <div key={idx} className="space-y-1">
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="text"
+                        value={item.name}
+                        onChange={e => updateItem(idx, 'name', e.target.value)}
+                        className="flex-1 px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Item name"
+                      />
+                      <input
+                        type="number"
+                        value={item.quantity}
+                        onChange={e => updateItem(idx, 'quantity', e.target.value)}
+                        className="w-20 px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Qty"
+                        step="0.01"
+                      />
+                      <input
+                        type="number"
+                        value={item.unit_price}
+                        onChange={e => updateItem(idx, 'unit_price', e.target.value)}
+                        className="w-24 px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Price"
+                        step="0.01"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeItem(idx)}
+                        className="text-gray-400 hover:text-red-600 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={item.description}
+                      onChange={e => updateItem(idx, 'description', e.target.value)}
+                      className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Description (optional)"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea
@@ -158,13 +266,13 @@ export function EditJobModal({ job, technicians, onClose, onSaved }: EditJobModa
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Internal Notes</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Private Notes</label>
             <textarea
               name="internal_notes"
               value={form.internal_notes}
               onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-              placeholder="Internal notes"
+              placeholder="Private notes"
               rows={2}
             />
           </div>
