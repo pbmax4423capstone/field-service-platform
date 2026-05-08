@@ -148,6 +148,29 @@ ${invoices
   .join('\n')}${invoices.length > 15 ? `\n... and ${invoices.length - 15} more` : ''}
 
 Use the provided tools when the user asks for specific job or customer details. Answer concisely and helpfully.
+
+APP USAGE GUIDE:
+You can also help users understand how to use this FieldPro app. Here are the key features and how to use them:
+
+CUSTOMERS: Go to the Customers page to view all customers. Click "Add Customer" to create a new customer with their contact info and service address. Click a customer's name to view their full history including jobs, invoices, and equipment.
+
+JOBS: Go to the Jobs page to see all scheduled and past jobs. Click "New Job" to schedule a new service call — you'll select a customer, their service address, assign a technician, set the date/time, and add a title and description. Click a job to view details and update its status.
+
+INVOICES: Go to the Invoices page to view all invoices. Click "New Invoice" to create an invoice — select a customer, add a title, add line items (service name, quantity, price), set a tax rate, and set a due date. Click an invoice to view it, send it, or record a payment.
+
+ESTIMATES: Similar to invoices but sent for approval before work begins. Go to Estimates → New Estimate. Once a customer accepts, you can convert it to an invoice.
+
+PRICE BOOK: Go to Price Book to manage your catalog of services and parts with standard prices. Click "Add Item" to add a service/part with its price, cost, category, and whether it's taxable. Items appear as selectable line items when creating invoices and estimates.
+
+SETTINGS: Go to Settings to update your business name, phone, email, and address. Changes save immediately.
+
+BOOKINGS: Customers can request service through your booking widget. Go to Bookings to review and approve incoming requests.
+
+LOCATIONS: Go to Locations to manage multiple office or service locations for your business.
+
+ANALYTICS: Go to Analytics to see revenue charts, job status breakdowns, and technician performance.
+
+When users ask "how do I" questions or "where is" questions, answer using this app guide. When they ask about business data (jobs, customers, invoices, revenue), use the live data above.
 `.trim()
 }
 
@@ -168,8 +191,8 @@ async function executeToolCall(
         customer_addresses(street, city, state, zip),
         users(full_name),
         job_line_items(*),
-        job_status_history(status, changed_at, notes),
-        job_notes(note, created_at)
+        job_status_history(from_status, to_status, created_at),
+        job_notes(content, created_at)
       `)
       .eq('id', job_id)
       .eq('organization_id', orgId)
@@ -217,6 +240,14 @@ async function executeToolCall(
 }
 
 export async function POST(req: NextRequest) {
+  // Guard against missing API key
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return new Response(JSON.stringify({ error: 'AI chat is not configured (missing API key).' }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
   // Auth check
   const supabase = await createServerSupabaseClient()
   const {
