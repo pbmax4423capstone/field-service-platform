@@ -6,7 +6,7 @@ import { createAdminClient } from '@/lib/admin-supabase'
 const bodySchema = z.object({
   platform: z.enum(['twitter', 'facebook', 'instagram', 'linkedin']),
   content: z.string().min(1).max(280),
-  scheduled_for: z.string().datetime({ offset: true }).nullable().optional(),
+  scheduled_for: z.string().nullable().optional(),
 })
 
 export async function GET(req: NextRequest) {
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     const parsed = bodySchema.safeParse(body)
     if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
+      return NextResponse.json({ error: parsed.error.issues.map((i: any) => i.message).join(', ') }, { status: 400 })
     }
 
     const { platform, content, scheduled_for } = parsed.data

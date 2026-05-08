@@ -91,7 +91,6 @@ export async function POST(req: NextRequest) {
         tax_amount,
         total,
         amount_paid: 0,
-        balance_due: total,
         created_by: user.id,
       })
       .select()

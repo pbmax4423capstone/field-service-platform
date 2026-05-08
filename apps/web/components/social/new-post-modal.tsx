@@ -49,7 +49,7 @@ export function NewPostModal({ onClose, onCreated }: NewPostModalProps) {
           body: JSON.stringify({
             platform,
             content: content.trim(),
-            scheduled_for: scheduledFor || null,
+            scheduled_for: scheduledFor ? new Date(scheduledFor).toISOString() : null,
           }),
         })
         if (!res.ok) {
