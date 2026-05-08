@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm, useFieldArray, useWatch } from 'react-hook-form'
 import { Plus, X, Trash2 } from 'lucide-react'
@@ -9,6 +9,12 @@ interface Customer {
   id: string
   first_name: string
   last_name: string
+}
+
+interface CustomerAddress {
+  state?: string | null
+  city?: string | null
+  zip?: string | null
 }
 
 interface Props {
@@ -41,12 +47,14 @@ export function NewInvoiceModal({ customers }: Props) {
   const [open, setOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [loadingTaxRate, setLoadingTaxRate] = useState(false)
 
   const {
     register,
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -63,6 +71,7 @@ export function NewInvoiceModal({ customers }: Props) {
 
   const watchedItems = useWatch({ control, name: 'line_items' })
   const watchedTaxRate = useWatch({ control, name: 'tax_rate' })
+  const watchedCustomerId = useWatch({ control, name: 'customer_id' })
 
   const subtotal = (watchedItems ?? []).reduce(
     (sum, li) => sum + (Number(li.quantity) || 0) * (Number(li.unit_price) || 0),
@@ -78,6 +87,52 @@ export function NewInvoiceModal({ customers }: Props) {
   const rate = Number(watchedTaxRate) || 0
   const taxAmount = taxableSubtotal * rate
   const total = subtotal + taxAmount
+
+  // Auto-suggest tax rate when customer changes
+  useEffect(() => {
+    if (!watchedCustomerId) return
+
+    const fetchAndSuggestTaxRate = async () => {
+      try {
+        setLoadingTaxRate(true)
+
+        // First, fetch the customer's addresses
+        const addressRes = await fetch(`/api/customer-addresses?customer_id=${watchedCustomerId}`)
+        if (!addressRes.ok) return
+
+        const addressData = await addressRes.json()
+        const addresses = addressData.data as CustomerAddress[]
+        if (!addresses || addresses.length === 0) return
+
+        // Get the primary/first address
+        const primaryAddress = addresses[0]
+        if (!primaryAddress.state) return
+
+        // Build query string for tax rate suggestion
+        const params = new URLSearchParams({ state: primaryAddress.state })
+        if (primaryAddress.city) params.append('city', primaryAddress.city)
+        if (primaryAddress.zip) params.append('zip', primaryAddress.zip)
+
+        const suggestRes = await fetch(`/api/tax-rates/suggest?${params.toString()}`)
+        if (!suggestRes.ok) return
+
+        const suggestData = await suggestRes.json()
+        if (suggestData.data?.rate) {
+          // Only auto-fill if current tax_rate is 0/empty
+          if (!watchedTaxRate) {
+            setValue('tax_rate', suggestData.data.rate)
+          }
+        }
+      } catch (err) {
+        // Silently fail - this is a nice-to-have feature
+        console.error('Failed to suggest tax rate:', err)
+      } finally {
+        setLoadingTaxRate(false)
+      }
+    }
+
+    fetchAndSuggestTaxRate()
+  }, [watchedCustomerId, setValue, watchedTaxRate])
 
   function formatMoney(n: number) {
     return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -201,6 +256,7 @@ export function NewInvoiceModal({ customers }: Props) {
               <div>
                 <label className={LABEL_CLS} htmlFor="inv-tax-rate">
                   Tax Rate (e.g. 0.08 for 8%)
+                  {loadingTaxRate && <span className="text-xs text-gray-500 ml-2">(finding best match…)</span>}
                 </label>
                 <input
                   id="inv-tax-rate"

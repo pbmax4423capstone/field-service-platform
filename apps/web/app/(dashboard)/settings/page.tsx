@@ -1,6 +1,7 @@
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { StripeConnectButton } from '@/components/settings/StripeConnectButton'
 import { BusinessProfileForm } from '@/components/settings/BusinessProfileForm'
+import { TaxRatesSection } from '@/components/settings/TaxRatesSection'
 import { CheckCircle, AlertCircle } from 'lucide-react'
 
 interface PageProps {
@@ -23,6 +24,12 @@ export default async function SettingsPage({ searchParams }: PageProps) {
     .select('*')
     .eq('id', userData?.organization_id ?? '')
     .single()
+
+  const { data: taxRates } = await supabase
+    .from('tax_rates')
+    .select('*')
+    .eq('organization_id', org?.id ?? '')
+    .order('name')
 
   return (
     <div className="space-y-6 max-w-2xl">
@@ -188,6 +195,13 @@ export default async function SettingsPage({ searchParams }: PageProps) {
           isConnected={org?.stripe_onboarding_complete ?? false}
           stripeAccountId={org?.stripe_account_id ?? null}
         />
+      </div>
+
+      {/* Tax Rates */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <h2 className="font-semibold text-gray-900 mb-1">Tax Rates</h2>
+        <p className="text-sm text-gray-500 mb-4">Configure tax rates by jurisdiction for invoices and estimates</p>
+        <TaxRatesSection taxRates={taxRates ?? []} />
       </div>
     </div>
   )
