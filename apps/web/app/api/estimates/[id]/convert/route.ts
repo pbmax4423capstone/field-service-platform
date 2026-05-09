@@ -12,12 +12,10 @@ function generateInvoiceNumber(count: number): string {
 }
 
 function generatePublicToken(): string {
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  let token = ''
-  for (let i = 0; i < 32; i++) {
-    token += chars[Math.floor(Math.random() * chars.length)]
-  }
-  return token
+  // Use Node.js crypto for cryptographically secure random tokens
+  // Math.random() is NOT safe for security-sensitive tokens
+  const { randomBytes } = require('crypto') as typeof import('crypto')
+  return randomBytes(24).toString('base64url')
 }
 
 export async function POST(_req: NextRequest, { params }: RouteParams) {

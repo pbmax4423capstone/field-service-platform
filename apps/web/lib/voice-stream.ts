@@ -445,7 +445,7 @@ export async function handleVoiceStream(ws: WebSocket, req: IncomingMessage): Pr
         if (params.callerNumber) state.callerNumber = params.callerNumber
         if (params.toNumber) state.toNumber = params.toNumber
 
-        console.log(`[voice] Call started sid=${state.callSid} from=${state.callerNumber}`)
+        console.log(`[voice] Call started sid=${state.callSid} from=+***${state.callerNumber.slice(-4)}`)
 
         // Resolve org by Twilio "To" number
         const admin = createAdminClient()

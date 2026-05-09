@@ -244,10 +244,14 @@ CREATE POLICY "Users can manage their organization's bookings"
 ON bookings FOR ALL
 USING (organization_id = auth.organization_id());
 
--- Service role can insert bookings (from widget/AI agents)
-CREATE POLICY "Service role can insert bookings"
+-- Service role bypasses RLS — anon users must match the organization_id of an existing org
+-- The API route enforces org lookup by slug before inserting, providing the real gatekeeper.
+-- This policy prevents direct anonymous inserts via Supabase REST to arbitrary org IDs.
+CREATE POLICY "Anon users can insert bookings for valid orgs"
 ON bookings FOR INSERT
-WITH CHECK (TRUE);
+WITH CHECK (
+  organization_id IN (SELECT id FROM organizations)
+);
 
 ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can manage their organization's leads"

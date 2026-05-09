@@ -8,18 +8,39 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase-server'
+import twilio from 'twilio'
+
+function validateTwilioSignature(req: NextRequest, body: string): boolean {
+  const authToken = process.env.TWILIO_AUTH_TOKEN
+  if (!authToken) return process.env.NODE_ENV !== 'production'
+
+  const signature = req.headers.get('x-twilio-signature') ?? ''
+  const url = process.env.NEXT_PUBLIC_APP_URL
+    ? `${process.env.NEXT_PUBLIC_APP_URL.replace(/\/+$/, '')}/api/voice/status`
+    : req.url
+
+  const params: Record<string, string> = {}
+  new URLSearchParams(body).forEach((value, key) => { params[key] = value })
+
+  return twilio.validateRequest(authToken, signature, url, params)
+}
 
 export async function POST(req: NextRequest) {
-  let formData: FormData
+  let bodyText: string
   try {
-    formData = await req.formData()
+    bodyText = await req.text()
   } catch {
     return NextResponse.json({ error: 'Bad request' }, { status: 400 })
   }
 
-  const callSid = (formData.get('CallSid') as string | null) ?? ''
-  const callStatus = (formData.get('CallStatus') as string | null) ?? ''
-  const callDuration = (formData.get('CallDuration') as string | null) ?? ''
+  if (!validateTwilioSignature(req, bodyText)) {
+    return new NextResponse('Forbidden', { status: 403 })
+  }
+
+  const formData = new URLSearchParams(bodyText)
+  const callSid = formData.get('CallSid') ?? ''
+  const callStatus = formData.get('CallStatus') ?? ''
+  const callDuration = formData.get('CallDuration') ?? ''
 
   if (!callSid) {
     return NextResponse.json({ error: 'Missing CallSid' }, { status: 400 })

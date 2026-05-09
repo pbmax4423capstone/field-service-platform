@@ -12,12 +12,36 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import twilio from 'twilio'
+
+function validateTwilioSignature(req: NextRequest, body: string): boolean {
+  const authToken = process.env.TWILIO_AUTH_TOKEN
+  // If token not configured, block all requests in production
+  if (!authToken) return process.env.NODE_ENV !== 'production'
+
+  const signature = req.headers.get('x-twilio-signature') ?? ''
+  const url = process.env.NEXT_PUBLIC_APP_URL
+    ? `${process.env.NEXT_PUBLIC_APP_URL.replace(/\/+$/, '')}/api/voice/inbound`
+    : req.url
+
+  // Parse form body into key-value pairs for Twilio validation
+  const params: Record<string, string> = {}
+  new URLSearchParams(body).forEach((value, key) => { params[key] = value })
+
+  return twilio.validateRequest(authToken, signature, url, params)
+}
 
 export async function POST(req: NextRequest) {
-  const formData = await req.formData()
-  const from = (formData.get('From') as string | null) ?? ''
-  const to = (formData.get('To') as string | null) ?? ''
-  const callSid = (formData.get('CallSid') as string | null) ?? ''
+  const bodyText = await req.text()
+
+  if (!validateTwilioSignature(req, bodyText)) {
+    return new NextResponse('Forbidden', { status: 403 })
+  }
+
+  const formData = new URLSearchParams(bodyText)
+  const from = formData.get('From') ?? ''
+  const to = formData.get('To') ?? ''
+  const callSid = formData.get('CallSid') ?? ''
 
   const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').replace(
     /\/+$/,
