@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm, useFieldArray, useWatch } from 'react-hook-form'
 import { Plus, X, Trash2 } from 'lucide-react'
@@ -9,6 +9,12 @@ interface Customer {
   id: string
   first_name: string
   last_name: string
+}
+
+interface CustomerAddress {
+  state?: string | null
+  city?: string | null
+  zip?: string | null
 }
 
 interface Props {
@@ -41,12 +47,15 @@ export function NewEstimateModal({ customers }: Props) {
   const [open, setOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [loadingTaxRate, setLoadingTaxRate] = useState(false)
+  const [taxRateMsg, setTaxRateMsg] = useState<string | null>(null)
 
   const {
     register,
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -63,6 +72,7 @@ export function NewEstimateModal({ customers }: Props) {
 
   const watchedItems = useWatch({ control, name: 'line_items' })
   const watchedTaxRate = useWatch({ control, name: 'tax_rate' })
+  const watchedCustomerId = useWatch({ control, name: 'customer_id' })
 
   const subtotal = (watchedItems ?? []).reduce(
     (sum, li) => sum + (Number(li.quantity) || 0) * (Number(li.unit_price) || 0),
@@ -75,9 +85,62 @@ export function NewEstimateModal({ customers }: Props) {
     0,
   )
 
-  const rate = Number(watchedTaxRate) || 0
+  const rate = (Number(watchedTaxRate) || 0) / 100  // field stores %, convert to decimal
   const taxAmount = taxableSubtotal * rate
   const total = subtotal + taxAmount
+
+  // Auto-suggest tax rate when customer changes
+  useEffect(() => {
+    if (!watchedCustomerId) {
+      setTaxRateMsg(null)
+      return
+    }
+
+    const fetchAndSuggestTaxRate = async () => {
+      try {
+        setLoadingTaxRate(true)
+        setTaxRateMsg(null)
+
+        const addressRes = await fetch(`/api/customer-addresses?customer_id=${watchedCustomerId}`)
+        if (!addressRes.ok) return
+
+        const addressData = await addressRes.json()
+        const addresses = addressData.data as CustomerAddress[]
+        if (!addresses || addresses.length === 0) {
+          setTaxRateMsg('No address on file for this customer.')
+          return
+        }
+
+        const primaryAddress = addresses[0]
+        if (!primaryAddress.state) {
+          setTaxRateMsg('Customer address has no state — cannot look up tax rate.')
+          return
+        }
+
+        const params = new URLSearchParams({ state: primaryAddress.state })
+        if (primaryAddress.city) params.append('city', primaryAddress.city)
+        if (primaryAddress.zip) params.append('zip', primaryAddress.zip)
+
+        const suggestRes = await fetch(`/api/tax-rates/suggest?${params.toString()}`)
+        if (!suggestRes.ok) return
+
+        const suggestData = await suggestRes.json()
+        if (suggestData.data?.rate) {
+          // Store as percentage (UI) — convert decimal to %
+          setValue('tax_rate', Math.round(suggestData.data.rate * 10000) / 100)
+          setTaxRateMsg(`Auto-filled: ${suggestData.data.name} (${(suggestData.data.rate * 100).toFixed(2)}%)`)
+        } else {
+          setTaxRateMsg(`No tax rate configured for ${primaryAddress.state}. Add one in Settings → Tax Rates.`)
+        }
+      } catch (err) {
+        console.error('Failed to suggest tax rate:', err)
+      } finally {
+        setLoadingTaxRate(false)
+      }
+    }
+
+    fetchAndSuggestTaxRate()
+  }, [watchedCustomerId, setValue])
 
   function formatMoney(n: number) {
     return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
@@ -95,7 +158,7 @@ export function NewEstimateModal({ customers }: Props) {
           title: values.title,
           valid_until: values.valid_until || null,
           notes: values.notes || null,
-          tax_rate: values.tax_rate,
+          tax_rate: (values.tax_rate || 0) / 100,  // convert % to decimal for storage
           line_items: values.line_items,
         }),
       })
@@ -120,6 +183,7 @@ export function NewEstimateModal({ customers }: Props) {
     if (submitting) return
     reset()
     setError(null)
+    setTaxRateMsg(null)
     setOpen(false)
   }
 
@@ -200,18 +264,30 @@ export function NewEstimateModal({ customers }: Props) {
               {/* Tax Rate */}
               <div>
                 <label className={LABEL_CLS} htmlFor="est-tax-rate">
-                  Tax Rate (e.g. 0.08 for 8%)
+                  Tax Rate %
+                  {loadingTaxRate && <span className="text-xs text-blue-500 ml-2">Looking up rate…</span>}
                 </label>
-                <input
-                  id="est-tax-rate"
-                  type="number"
-                  step="0.001"
-                  min="0"
-                  max="1"
-                  placeholder="0"
-                  {...register('tax_rate', { valueAsNumber: true })}
-                  className={INPUT_CLS}
-                />
+                <div className="relative">
+                  <input
+                    id="est-tax-rate"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    placeholder="0.00"
+                    {...register('tax_rate', { valueAsNumber: true })}
+                    className={INPUT_CLS + ' pr-8'}
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">%</span>
+                </div>
+                {taxRateMsg && (
+                  <p className={`text-xs mt-1 ${taxRateMsg.startsWith('Auto') ? 'text-green-600' : 'text-amber-600'}`}>
+                    {taxRateMsg}
+                    {taxRateMsg.includes('Settings') && (
+                      <a href="/settings" className="ml-1 underline hover:text-amber-800">Go to Settings →</a>
+                    )}
+                  </p>
+                )}
               </div>
 
               {/* Line Items */}
