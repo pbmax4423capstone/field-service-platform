@@ -46,6 +46,8 @@ pnpm install
    - `supabase/migrations/006_phase7_voice.sql`
    - `supabase/migrations/007_phase8_social.sql`
    - `supabase/migrations/008_phase9_analytics.sql`
+   - `supabase/migrations/009_tax_rates.sql`
+   - `supabase/migrations/010_phase10_portal.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -180,6 +182,19 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
 - **Navigation** — "Analytics" (BarChart3 icon) added between Dashboard and Jobs; "Locations" (MapPin icon) added after Settings
 - **Migration** `008_phase9_analytics.sql` — `reports` and `locations` tables with full RLS; `location_id` column on `jobs`
 
+### Phase 10 ✅ — Customer Portal & Dispatch Board
+- **Customer Portal** — Public, token-based customer-facing portal showing service history
+  - `customer_portal_tokens` table with org-scoped RLS (SELECT/DELETE); no RLS on INSERT (service role)
+  - `POST /api/portal/generate-link` — Auth-protected; inserts a 30-day token via `createAdminClient()`; returns `{ url }`
+  - `/portal/[token]` — Public server-rendered page; validates/expires token; shows customer info (name, email, phone, address), equipment (type/make/model/serial), full job history with status badges + technician name, and invoices with Pay Now links for unpaid
+  - `/portal/expired` — Static public page with expired-link message
+  - **CopyPortalLinkButton** — Client component on `/customers/[id]`; calls generate-link API, copies URL to clipboard, shows idle → loading → copied states
+- **Dispatch Board** — Visual scheduling board for technician job management
+  - `/dispatch` — Auth-gated server page; left column lists technicians (users with role `technician`); right side shows 07:00–19:00 horizontal timeline with job cards positioned by `scheduled_start` and sized by `estimated_duration_minutes` or `scheduled_end`; each card links to `/jobs/[id]`; "Unscheduled" pile below for jobs without a start time
+  - `PATCH /api/jobs/[id]/assign` — Auth-protected; validates technician belongs to same org; updates `technician_id` + `scheduled_start`
+  - **Sidebar** — "Dispatch" link with Truck icon added between Jobs and Customers
+- **Migration** `010_phase10_portal.sql` — `customer_portal_tokens` table with RLS; `estimated_duration_minutes` column on `jobs`
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -231,7 +246,7 @@ NEXT_PUBLIC_APP_URL=               # Your app URL (http://localhost:3000 for dev
 
 ## Database Schema Overview
 
-28 tables organized by domain:
+29 tables organized by domain:
 
 - **Multi-tenant core**: `organizations`, `users`, `user_roles`
 - **CRM**: `customers`, `customer_addresses`, `customer_equipment`
@@ -244,3 +259,4 @@ NEXT_PUBLIC_APP_URL=               # Your app URL (http://localhost:3000 for dev
 - **Social**: `social_accounts`, `social_posts`
 - **Analytics**: `reports`
 - **Locations**: `locations`
+- **Portal**: `customer_portal_tokens`
