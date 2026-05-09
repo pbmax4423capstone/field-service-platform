@@ -12,12 +12,19 @@ import twilio from 'twilio'
 
 function validateTwilioSignature(req: NextRequest, body: string): boolean {
   const authToken = process.env.TWILIO_AUTH_TOKEN
-  if (!authToken) return process.env.NODE_ENV !== 'production'
+  // Fail closed: if token is not configured, always reject
+  if (!authToken) return false
 
   const signature = req.headers.get('x-twilio-signature') ?? ''
-  const url = process.env.NEXT_PUBLIC_APP_URL
-    ? `${process.env.NEXT_PUBLIC_APP_URL.replace(/\/+$/, '')}/api/voice/status`
-    : req.url
+
+  let url: string
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    url = `${process.env.NEXT_PUBLIC_APP_URL.replace(/\/+$/, '')}/api/voice/status`
+  } else {
+    const proto = req.headers.get('x-forwarded-proto') ?? (req.url.startsWith('https') ? 'https' : 'http')
+    const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host') ?? ''
+    url = `${proto}://${host}/api/voice/status`
+  }
 
   const params: Record<string, string> = {}
   new URLSearchParams(body).forEach((value, key) => { params[key] = value })

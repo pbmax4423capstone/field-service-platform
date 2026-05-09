@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
+import { randomBytes } from 'crypto'
 
 interface RouteParams {
   params: Promise<{ id: string }>
@@ -12,9 +13,6 @@ function generateInvoiceNumber(count: number): string {
 }
 
 function generatePublicToken(): string {
-  // Use Node.js crypto for cryptographically secure random tokens
-  // Math.random() is NOT safe for security-sensitive tokens
-  const { randomBytes } = require('crypto') as typeof import('crypto')
   return randomBytes(24).toString('base64url')
 }
 

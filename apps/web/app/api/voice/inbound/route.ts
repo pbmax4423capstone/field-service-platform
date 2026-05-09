@@ -16,13 +16,22 @@ import twilio from 'twilio'
 
 function validateTwilioSignature(req: NextRequest, body: string): boolean {
   const authToken = process.env.TWILIO_AUTH_TOKEN
-  // If token not configured, block all requests in production
-  if (!authToken) return process.env.NODE_ENV !== 'production'
+  // Fail closed: if token is not configured, always reject
+  if (!authToken) return false
 
   const signature = req.headers.get('x-twilio-signature') ?? ''
-  const url = process.env.NEXT_PUBLIC_APP_URL
-    ? `${process.env.NEXT_PUBLIC_APP_URL.replace(/\/+$/, '')}/api/voice/inbound`
-    : req.url
+
+  // Build the canonical URL that Twilio signed against.
+  // NEXT_PUBLIC_APP_URL is the authoritative source; fall back to
+  // reconstructing from request headers (handles SSL-terminating proxies).
+  let url: string
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    url = `${process.env.NEXT_PUBLIC_APP_URL.replace(/\/+$/, '')}/api/voice/inbound`
+  } else {
+    const proto = req.headers.get('x-forwarded-proto') ?? (req.url.startsWith('https') ? 'https' : 'http')
+    const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host') ?? ''
+    url = `${proto}://${host}/api/voice/inbound`
+  }
 
   // Parse form body into key-value pairs for Twilio validation
   const params: Record<string, string> = {}

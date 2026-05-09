@@ -244,9 +244,17 @@ CREATE POLICY "Users can manage their organization's bookings"
 ON bookings FOR ALL
 USING (organization_id = auth.organization_id());
 
--- Service role bypasses RLS — anon users must match the organization_id of an existing org
--- The API route enforces org lookup by slug before inserting, providing the real gatekeeper.
--- This policy prevents direct anonymous inserts via Supabase REST to arbitrary org IDs.
+-- ⚠️  SECURITY DEPENDENCY: This policy's effectiveness depends on the organizations
+-- table having NO anonymous SELECT policy. The subquery below returns an empty set
+-- for anonymous users today because the only organizations SELECT policy
+-- ('Users can view their own organization') evaluates to FALSE for unauthenticated
+-- requests (auth.organization_id() returns NULL for anon).
+--
+-- If a future migration adds an anonymous SELECT policy to organizations (e.g. for
+-- widget org-slug lookups), this policy would silently become permissive — allowing
+-- any anonymous user to INSERT a booking into any valid organization by calling the
+-- Supabase REST API directly. If you need anon org reads, enforce the widget booking
+-- path through the API route alone and tighten this policy to require authentication.
 CREATE POLICY "Anon users can insert bookings for valid orgs"
 ON bookings FOR INSERT
 WITH CHECK (
