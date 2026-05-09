@@ -54,7 +54,7 @@ export default function JobsScreen() {
     }
 
     const { data } = await query
-    setJobs(data ?? [])
+    setJobs((data as Job[] | null) ?? [])
     setLoading(false)
     setRefreshing(false)
   }

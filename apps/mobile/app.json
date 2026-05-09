@@ -21,6 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#2563EB"
       },
       "package": "com.fieldpro.app",
@@ -36,6 +37,12 @@
       "expo-router",
       "expo-secure-store",
       [
+        "expo-camera",
+        {
+          "cameraPermission": "FieldPro uses your camera to take before and after photos of jobs."
+        }
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "FieldPro accesses your photos to attach job photos.",
@@ -47,6 +54,12 @@
         {
           "icon": "./assets/notification-icon.png",
           "color": "#2563EB"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "FieldPro uses your location to show nearby jobs."
         }
       ]
     ],
