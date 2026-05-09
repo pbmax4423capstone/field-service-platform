@@ -46,6 +46,8 @@ pnpm install
    - `supabase/migrations/006_phase7_voice.sql`
    - `supabase/migrations/007_phase8_social.sql`
    - `supabase/migrations/008_phase9_analytics.sql`
+   - `supabase/migrations/009_tax_rates.sql`
+   - `supabase/migrations/010_phase10_portal.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -164,6 +166,18 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
   - `POST /api/social/posts` — Auth-protected, Zod-validated; inserts into `social_posts` via `createAdminClient()`
   - `DELETE /api/social/posts/[id]` — Deletes a scheduled post belonging to the org
   - **Sidebar** — "Social" link added between Notifications and AI Chat with `Share2` Lucide icon
+
+### Phase 10 ✅ — Customer Portal & Dispatch Board
+
+- **Customer portal** — Shareable, token-gated public page (`/portal/[token]`) showing a customer's contact info, equipment list, full job history (with status badges and technician name), and invoices (with pay-now links for unpaid invoices); no auth required
+- **Portal token generation** — `POST /api/portal/generate-link` (auth-protected) inserts a 30-day token into `customer_portal_tokens` and returns the full portal URL
+- **`customer_portal_tokens` table** — `id`, `customer_id`, `organization_id`, `token` (unique hex default), `expires_at`, `created_at`; RLS restricts select/delete to the owning org; service role handles inserts
+- **Expired portal page** — `/portal/expired` shows a friendly "link has expired" message
+- **"Copy Portal Link" button** — Client component on the Customer detail page; calls the generate-link API and writes the URL to the clipboard
+- **Dispatch board** (`/dispatch`) — Auth-gated visual scheduling board; left column lists active technicians (users with `technician` role); right side renders a horizontal 07:00–19:00 timeline with job cards positioned by `scheduled_start` and sized by `estimated_duration_minutes` (or `scheduled_end`); each card shows customer name, address, status badge and links to `/jobs/[id]`; jobs without a scheduled time appear in an "Unscheduled" pile below
+- **`PATCH /api/jobs/[id]/assign`** — Auth-protected; accepts `{ technicianId, scheduledStart }`; validates technician belongs to the org; updates `jobs.technician_id` and `jobs.scheduled_start`
+- **Migration `010_phase10_portal.sql`** — `customer_portal_tokens` table with RLS; `estimated_duration_minutes INTEGER` and `assigned_to UUID` columns added to `jobs`
+- **Navigation** — "Dispatch" link (Truck icon) added to sidebar between Jobs and Customers
 
 ### Phase 9 ✅ — Analytics Dashboard & Multi-Location Support
 - **Analytics dashboard** (`/analytics`) — Auth-gated page with 4 chart sections powered by Recharts:

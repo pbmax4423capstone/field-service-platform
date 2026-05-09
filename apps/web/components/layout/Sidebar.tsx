@@ -18,12 +18,14 @@ import {
   Share2,
   BarChart3,
   MapPin,
+  Truck,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/jobs', label: 'Jobs', icon: Calendar },
+  { href: '/dispatch', label: 'Dispatch', icon: Truck },
   { href: '/customers', label: 'Customers', icon: Users },
   { href: '/invoices', label: 'Invoices', icon: FileText },
   { href: '/estimates', label: 'Estimates', icon: ClipboardList },
