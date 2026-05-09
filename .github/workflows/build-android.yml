@@ -38,20 +38,24 @@ jobs:
         working-directory: .
 
       - name: Setup EAS
+        if: ${{ secrets.EXPO_TOKEN != '' }}
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Create .env file
+        if: ${{ secrets.EXPO_TOKEN != '' }}
         run: |
           echo "EXPO_PUBLIC_SUPABASE_URL=${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}" > .env
           echo "EXPO_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
 
       - name: Build Android APK
+        if: ${{ secrets.EXPO_TOKEN != '' }}
         run: eas build --platform android --profile ${{ github.event.inputs.profile }} --non-interactive --no-wait
 
       - name: Post build link
+        if: ${{ secrets.EXPO_TOKEN != '' }}
         run: |
           echo "## Build started!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -61,3 +65,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Once the build completes (~10-15 min), the download link will appear on the EAS dashboard." >> $GITHUB_STEP_SUMMARY
           echo "Open that link on your Android phone to install the APK." >> $GITHUB_STEP_SUMMARY
+
+      - name: Skip build when EXPO_TOKEN is unavailable
+        if: ${{ secrets.EXPO_TOKEN == '' }}
+        run: |
+          echo "## Android build skipped" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "EXPO_TOKEN is not configured for this run, so EAS build steps were skipped." >> $GITHUB_STEP_SUMMARY
