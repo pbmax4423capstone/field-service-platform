@@ -37,25 +37,34 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: .
 
+      - name: Check Expo token availability
+        id: expo-token
+        run: |
+          if [ -n "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup EAS
-        if: secrets.EXPO_TOKEN != ''
+        if: steps.expo-token.outputs.available == 'true'
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Create .env file
-        if: secrets.EXPO_TOKEN != ''
+        if: steps.expo-token.outputs.available == 'true'
         run: |
           echo "EXPO_PUBLIC_SUPABASE_URL=${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}" > .env
           echo "EXPO_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
 
       - name: Build Android APK
-        if: secrets.EXPO_TOKEN != ''
+        if: steps.expo-token.outputs.available == 'true'
         run: eas build --platform android --profile ${{ github.event.inputs.profile }} --non-interactive --no-wait
 
       - name: Post build link
-        if: secrets.EXPO_TOKEN != ''
+        if: steps.expo-token.outputs.available == 'true'
         run: |
           echo "## Build started!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -67,7 +76,7 @@ jobs:
           echo "Open that link on your Android phone to install the APK." >> $GITHUB_STEP_SUMMARY
 
       - name: Skip build when EXPO_TOKEN is unavailable
-        if: secrets.EXPO_TOKEN == ''
+        if: steps.expo-token.outputs.available == 'false'
         run: |
           echo "## Android build skipped" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
