@@ -46,6 +46,7 @@ pnpm install
    - `supabase/migrations/006_phase7_voice.sql`
    - `supabase/migrations/007_phase8_social.sql`
    - `supabase/migrations/008_phase9_analytics.sql`
+   - `supabase/migrations/009_tax_rates.sql`
 3. Optionally run `supabase/seed/001_demo_data.sql` for demo data
 
 ### 4. Configure environment variables
@@ -179,6 +180,18 @@ Go to `/signup` to create your contractor account. The auth trigger automaticall
   - `DELETE /api/locations/[id]` — Deletes non-primary location; returns `422` if attempting to delete the primary
 - **Navigation** — "Analytics" (BarChart3 icon) added between Dashboard and Jobs; "Locations" (MapPin icon) added after Settings
 - **Migration** `008_phase9_analytics.sql` — `reports` and `locations` tables with full RLS; `location_id` column on `jobs`
+
+### Phase 10 ✅ — Tax Rates by Jurisdiction
+- **Tax Rates table** — `tax_rates` table with org-scoped RLS; supports state, city, county, and zip-code-level rates; `is_default` flag per org
+- **Settings page — Tax Rates section** — Full CRUD UI in Settings: add/edit/delete tax rates; fields: name, state (2-char), city, county, zip codes (comma-separated), rate %, default toggle
+- **`GET /api/tax-rates`** — Lists all tax rates for the org, ordered by name
+- **`POST /api/tax-rates`** — Creates a new tax rate; unsets previous default if `is_default = true`
+- **`PATCH /api/tax-rates/[id]`** — Updates an existing tax rate; handles default promotion
+- **`DELETE /api/tax-rates/[id]`** — Deletes a tax rate by ID
+- **`GET /api/tax-rates/suggest?state=&city=&zip=`** — Returns the best-matching tax rate for a given location using priority: zip → city → county → state → default
+- **Auto-suggest in New Invoice / New Estimate modals** — When a customer is selected, their primary address is looked up and the best-matching tax rate is automatically filled in; shows "Auto-filled: <name> (<rate>%)" confirmation or a prompt to configure rates in Settings
+- **Per-line-item taxable flag** — Each line item on invoices and estimates has a "Taxable" checkbox; tax is applied only to taxable subtotals
+- **Migration** `009_tax_rates.sql` — `tax_rates` table with full RLS and `updated_at` trigger
 
 ## Tech Stack
 
