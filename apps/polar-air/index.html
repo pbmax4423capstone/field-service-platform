@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A2540">
+<title>Polar Air Solutions — HVAC Contractor in Mobile, AL | AC Repair, Installation & Maintenance</title>
+<meta name="description" content="Polar Air Solutions provides residential and commercial HVAC installation, repair, and maintenance throughout Mobile, AL and the Gulf Coast. 24/7 emergency service. Licensed and insured.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Polar Air Solutions — HVAC Contractor in Mobile, AL">
+<meta property="og:description" content="24/7 HVAC installation, repair, and maintenance for homes and businesses on the Gulf Coast.">
+<!-- CLIENT_TODO: Update og:url and og:image with real domain -->
+<meta property="og:url" content="https://polarairsolutions.com">
+<meta property="og:image" content="https://polarairsolutions.com/img/og-image.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- PWA manifest -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Structured Data: LocalBusiness -->
+<!-- CLIENT_TODO: Fill in real address, phone, license, coordinates -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HVACBusiness",
+  "name": "Polar Air Solutions",
+  "description": "Residential and commercial HVAC installation, repair, and maintenance in Mobile, AL",
+  "url": "https://polarairsolutions.com",
+  "telephone": "+1-251-XXX-XXXX",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "CLIENT_TODO",
+    "addressLocality": "Mobile",
+    "addressRegion": "AL",
+    "postalCode": "36608",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 30.6954,
+    "longitude": -88.0399
+  },
+  "areaServed": ["Mobile","Daphne","Fairhope","Spanish Fort","Theodore","Saraland","Prichard","Chickasaw","Citronelle","Satsuma","Bayou La Batre","Dauphin Island","Semmes","Loxley","Robertsdale","Bay Minette"],
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "priceRange": "$$"
+}
+</script>
+
+<!-- Analytics: Uncomment ONE of these -->
+<!-- Option A: Plausible (privacy-friendly, $9/mo, no cookie banner needed) -->
+<!-- <script defer data-domain="polarairsolutions.com" src="https://plausible.io/js/script.js"></script> -->
+<!-- Option B: Google Analytics (free) -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script> -->
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ice-50:  #F0F7FB;
+  --ice-100: #DCEAF3;
+  --ice-200: #B7D4E5;
+  --ice-300: #7DB1CD;
+  --ice-500: #2E7AAB;
+  --deep:    #0A2540;
+  --deep-2:  #0F3358;
+  --warm:    #FF6B35;
+  --warm-2:  #FF8B5A;
+  --ink:     #0B1B2C;
+  --paper:   #FBFBF9;
+  --line:    rgba(10, 37, 64, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Manrope', system-ui, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4, .display {
+  font-family: 'Bricolage Grotesque', serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-variation-settings: "opsz" 32;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ============ TOP BAR ============ */
+.topbar { background: var(--deep); color: var(--ice-100); font-size: 13px; padding: 8px 0; }
+.topbar-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.topbar-left { display: flex; gap: 20px; opacity: .85; }
+.topbar-left span { display: inline-flex; align-items: center; gap: 6px; }
+.dot-live { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); animation: pulse 2s infinite; }
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+.topbar a.phone { font-weight: 700; color: white; letter-spacing: 0.02em; }
+.topbar a.phone:hover { color: var(--warm-2); }
+
+/* ============ HEADER / NAV ============ */
+header { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px); background: rgba(251, 251, 249, 0.92); }
+.nav-inner { max-width: 1280px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo { display: flex; align-items: center; gap: 10px; font-family: 'Bricolage Grotesque', serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; color: var(--deep); }
+.logo-mark { width: 38px; height: 38px; background: linear-gradient(135deg, var(--ice-500), var(--deep)); border-radius: 10px; display: grid; place-items: center; position: relative; overflow: hidden; }
+.logo-mark::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 50%); }
+.logo-mark svg { color: white; position: relative; z-index: 1; }
+nav ul { display: flex; gap: 28px; list-style: none; }
+nav a { font-size: 15px; font-weight: 500; color: var(--ink); position: relative; padding: 4px 0; }
+nav a:hover { color: var(--ice-500); }
+.cta-btn { background: var(--warm); color: white; padding: 12px 22px; border-radius: 999px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(255, 107, 53, 0.25); }
+.cta-btn:hover { background: var(--warm-2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35); }
+
+/* ============ HERO ============ */
+.hero { position: relative; background: linear-gradient(180deg, var(--deep) 0%, var(--deep-2) 100%); color: white; padding: 90px 24px 130px; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 80% 20%, rgba(46, 122, 171, 0.4), transparent 50%), radial-gradient(circle at 10% 90%, rgba(255, 107, 53, 0.15), transparent 40%); pointer-events: none; }
+.hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%); }
+.hero-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 2; display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: center; }
+@media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; } }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 28px; backdrop-filter: blur(6px); }
+.eyebrow .dot { width: 6px; height: 6px; background: var(--warm); border-radius: 50%; box-shadow: 0 0 8px var(--warm); }
+.hero h1 { font-size: clamp(42px, 6vw, 78px); margin-bottom: 24px; }
+.hero h1 .accent { color: transparent; -webkit-text-stroke: 1.5px var(--warm); font-style: italic; }
+.hero h1 .glow { background: linear-gradient(120deg, #fff 30%, var(--ice-200) 70%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p.lede { font-size: 19px; color: var(--ice-200); max-width: 540px; margin-bottom: 36px; }
+.hero-cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+.btn-secondary { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 12px 22px; border-radius: 999px; font-weight: 600; font-size: 14px; transition: all 0.2s; backdrop-filter: blur(6px); }
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.3); }
+.hero-trust { display: flex; gap: 32px; flex-wrap: wrap; padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+.trust-item .num { font-family: 'Bricolage Grotesque', serif; font-size: 32px; font-weight: 700; color: white; line-height: 1; }
+.trust-item .label { font-size: 12px; color: var(--ice-300); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+/* ============ HERO RIGHT: TEMPERATURE CARD ============ */
+.temp-card { background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; padding: 32px; backdrop-filter: blur(14px); position: relative; overflow: hidden; }
+.temp-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, var(--warm) 0%, transparent 35%); opacity: 0.18; }
+.temp-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: relative; }
+.temp-card-header h3 { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ice-200); }
+.live-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #4ade80; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+.temp-display { font-family: 'Bricolage Grotesque', serif; font-size: 96px; font-weight: 700; letter-spacing: -0.04em; color: white; line-height: 1; position: relative; }
+.temp-display sup { font-size: 36px; color: var(--warm); vertical-align: top; margin-left: 4px; }
+.temp-meta { font-size: 14px; color: var(--ice-200); margin: 12px 0 24px; position: relative; }
+.temp-action { width: 100%; background: var(--warm); color: white; padding: 14px; border-radius: 12px; font-weight: 600; font-size: 15px; text-align: center; border: none; cursor: pointer; position: relative; transition: all 0.2s; }
+.temp-action:hover { background: var(--warm-2); }
+
+/* ============ SERVICES ============ */
+.services { padding: 100px 24px; background: var(--paper); }
+.section-inner { max-width: 1280px; margin: 0 auto; }
+.section-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: end; }
+@media (max-width: 800px) { .section-header { grid-template-columns: 1fr; gap: 24px; } }
+.section-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ice-500); margin-bottom: 16px; display: inline-flex; align-items: center; gap: 12px; }
+.section-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--ice-500); }
+.section-header h2 { font-size: clamp(36px, 5vw, 56px); }
+.section-header p { font-size: 17px; color: rgba(11, 27, 44, 0.7); }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 900px) { .services-grid { grid-template-columns: 1fr; } }
+.service-card { background: white; border: 1px solid var(--line); border-radius: 20px; padding: 36px 32px; transition: all 0.3s; position: relative; overflow: hidden; }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--ice-500), var(--warm)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+.service-card:hover { border-color: var(--ice-300); transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(10, 37, 64, 0.15); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-icon { width: 56px; height: 56px; background: var(--ice-50); border-radius: 14px; display: grid; place-items: center; margin-bottom: 24px; color: var(--ice-500); }
+.service-card h3 { font-size: 24px; margin-bottom: 12px; color: var(--deep); }
+.service-card p { color: rgba(11, 27, 44, 0.7); font-size: 15px; margin-bottom: 20px; }
+.service-card ul { list-style: none; margin-bottom: 24px; }
+.service-card li { font-size: 14px; padding: 6px 0; color: rgba(11, 27, 44, 0.7); display: flex; align-items: center; gap: 10px; }
+.service-card li::before { content: ''; width: 5px; height: 5px; background: var(--warm); border-radius: 50%; flex-shrink: 0; }
+.service-link { font-size: 14px; font-weight: 600; color: var(--deep); display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+.service-link:hover { gap: 10px; color: var(--warm); }
+
+/* ============ FEATURE STRIP ============ */
+.feature-strip { background: var(--deep); color: white; padding: 0; position: relative; overflow: hidden; }
+.feature-strip-inner { max-width: 1280px; margin: 0 auto; padding: 80px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+@media (max-width: 900px) { .feature-strip-inner { grid-template-columns: 1fr; gap: 40px; } }
+.feature-strip h2 { font-size: clamp(32px, 4vw, 48px); margin-bottom: 20px; }
+.feature-strip h2 em { font-style: italic; color: var(--warm); font-weight: 400; }
+.feature-strip p { color: var(--ice-200); font-size: 17px; margin-bottom: 24px; }
+.feature-list { list-style: none; display: grid; gap: 16px; }
+.feature-list li { display: flex; align-items: flex-start; gap: 14px; padding: 18px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; }
+.feature-list .check { width: 32px; height: 32px; background: var(--warm); border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
+.feature-list strong { display: block; margin-bottom: 4px; font-size: 15px; }
+.feature-list span { color: var(--ice-200); font-size: 14px; }
+
+/* ============ MAINTENANCE PLAN ============ */
+.plan { padding: 100px 24px; background: var(--ice-50); position: relative; }
+.plan-card { max-width: 1100px; margin: 0 auto; background: white; border-radius: 28px; padding: 60px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; box-shadow: 0 30px 60px -20px rgba(10, 37, 64, 0.15); border: 1px solid var(--line); }
+@media (max-width: 900px) { .plan-card { grid-template-columns: 1fr; padding: 40px 28px; gap: 32px; } }
+.plan-badge { display: inline-block; background: var(--warm); color: white; padding: 6px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
+.plan h2 { font-size: 44px; margin-bottom: 16px; color: var(--deep); }
+.plan p { color: rgba(11,27,44,0.7); margin-bottom: 28px; font-size: 16px; }
+.plan-benefits { list-style: none; display: grid; gap: 12px; margin-bottom: 28px; }
+.plan-benefits li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--deep); }
+.plan-benefits li svg { color: var(--warm); flex-shrink: 0; }
+.plan-price { background: var(--ice-50); border-radius: 20px; padding: 36px; text-align: center; border: 1px dashed var(--ice-300); }
+.plan-price .amount { font-family: 'Bricolage Grotesque', serif; font-size: 64px; font-weight: 700; color: var(--deep); line-height: 1; }
+.plan-price .amount sup { font-size: 24px; vertical-align: top; }
+.plan-price .amount sub { font-size: 16px; color: rgba(11,27,44,0.5); font-weight: 500; }
+.plan-price .save { font-size: 13px; color: var(--warm); font-weight: 600; margin: 12px 0 24px; }
+
+/* ============ TESTIMONIALS ============ */
+.testimonials { padding: 100px 24px; background: var(--paper); }
+.testimonial-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+@media (max-width: 800px) { .testimonial-grid { grid-template-columns: 1fr; } }
+.testimonial { background: white; border: 1px solid var(--line); border-radius: 20px; padding: 36px; position: relative; }
+.stars { color: var(--warm); margin-bottom: 16px; font-size: 18px; letter-spacing: 2px; }
+.testimonial blockquote { font-size: 18px; line-height: 1.5; color: var(--deep); margin-bottom: 24px; font-family: 'Bricolage Grotesque', serif; font-weight: 500; letter-spacing: -0.01em; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
+.avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--ice-300), var(--ice-500)); display: grid; place-items: center; color: white; font-weight: 700; font-size: 14px; }
+.testimonial-author strong { display: block; font-size: 14px; }
+.testimonial-author span { font-size: 13px; color: rgba(11,27,44,0.6); }
+
+/* ============ SERVICE AREA ============ */
+.area { background: var(--deep); color: white; padding: 80px 24px; }
+.area-inner { max-width: 1280px; margin: 0 auto; text-align: center; }
+.area h2 { font-size: clamp(32px, 4vw, 48px); margin-bottom: 16px; }
+.area > p { color: var(--ice-200); margin: 0 auto 48px; max-width: 560px; }
+.area-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.area-tag { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); padding: 10px 18px; border-radius: 999px; font-size: 14px; color: var(--ice-100); }
+
+/* ============ CONTACT FORM ============ */
+.contact-section { padding: 100px 24px; background: var(--paper); }
+.contact-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: start; }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-form-wrap { background: white; border: 1px solid var(--line); border-radius: 20px; padding: 36px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--deep); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font-family: 'Manrope', sans-serif; font-size: 15px; color: var(--ink); background: var(--paper); transition: border-color 0.2s; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--ice-500); box-shadow: 0 0 0 3px rgba(46, 122, 171, 0.1); }
+.contact-submit { width: 100%; justify-content: center; margin-top: 4px; }
+.contact-success { text-align: center; padding: 40px 20px; }
+.success-icon { width: 64px; height: 64px; background: #E6F9EE; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 20px; font-size: 28px; color: #22c55e; }
+.contact-success h3 { font-size: 28px; margin-bottom: 12px; color: var(--deep); }
+.contact-success p { color: rgba(11,27,44,0.7); font-size: 16px; }
+.phone-link { color: var(--warm); font-weight: 600; }
+.info-card { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.info-card-icon { font-size: 24px; margin-bottom: 12px; }
+.info-card h4 { font-size: 16px; color: var(--deep); margin-bottom: 8px; font-family: 'Bricolage Grotesque', serif; }
+.info-card-value { font-size: 18px; font-weight: 600; color: var(--deep); display: block; margin-bottom: 4px; }
+.info-card p { font-size: 13px; color: rgba(11,27,44,0.6); margin: 0; }
+.info-card a { color: var(--warm); text-decoration: none; }
+.info-card a:hover { text-decoration: underline; }
+
+/* ============ CTA / FOOTER ============ */
+.final-cta { background: linear-gradient(135deg, var(--warm) 0%, #FF4F1F 100%); padding: 80px 24px; color: white; position: relative; overflow: hidden; }
+.final-cta::before { content: ''; position: absolute; top: -50%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 60%); }
+.final-cta-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; position: relative; z-index: 1; }
+@media (max-width: 800px) { .final-cta-inner { grid-template-columns: 1fr; text-align: center; } }
+.final-cta h2 { font-size: clamp(32px, 4.5vw, 52px); margin-bottom: 12px; }
+.final-cta p { font-size: 17px; opacity: 0.9; }
+.final-cta-buttons { display: flex; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 800px) { .final-cta-buttons { justify-content: center; } }
+.btn-white { background: white; color: var(--warm); padding: 16px 28px; border-radius: 999px; font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s; }
+.btn-white:hover { transform: translateY(-2px); }
+.btn-outline-white { border: 2px solid white; color: white; padding: 14px 26px; border-radius: 999px; font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; }
+.btn-outline-white:hover { background: white; color: var(--warm); }
+
+footer { background: #050E1A; color: var(--ice-200); padding: 60px 24px 28px; }
+.footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+@media (max-width: 800px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
+.footer-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: white; margin-bottom: 18px; font-family: 'Manrope', sans-serif; font-weight: 700; }
+.footer-col ul { list-style: none; display: grid; gap: 10px; }
+.footer-col a { font-size: 14px; opacity: 0.8; }
+.footer-col a:hover { opacity: 1; color: var(--warm); }
+.footer-brand p { font-size: 14px; opacity: 0.7; margin: 16px 0; max-width: 280px; }
+.footer-social { display: flex; gap: 10px; }
+.footer-social a { width: 36px; height: 36px; background: rgba(255,255,255,0.06); border-radius: 8px; display: grid; place-items: center; transition: background 0.2s; }
+.footer-social a:hover { background: var(--warm); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 13px; opacity: 0.6; }
+
+/* PWA install banner */
+.pwa-banner { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--deep); color: white; padding: 14px 20px; border-radius: 14px; display: flex; align-items: center; gap: 14px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); z-index: 100; max-width: calc(100vw - 40px); font-size: 14px; border: 1px solid rgba(255,255,255,0.1); animation: slideUp 0.6s ease 2s both; }
+@keyframes slideUp {
+  from { transform: translate(-50%, 100px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+.pwa-banner-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--ice-500), var(--warm)); border-radius: 8px; display: grid; place-items: center; font-weight: 700; flex-shrink: 0; }
+.pwa-banner-text strong { display: block; font-size: 14px; }
+.pwa-banner-text span { font-size: 12px; opacity: 0.7; }
+.pwa-banner button { background: var(--warm); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.pwa-banner .close { background: transparent; color: rgba(255,255,255,0.5); font-size: 18px; cursor: pointer; padding: 0 4px; border: none; line-height: 1; }
+</style>
+</head>
+<body>
+
+<!-- DispatchForce AI / FieldPro configuration -->
+<script>
+  window.FIELDPRO_API_URL = 'http://localhost:3000';
+</script>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span><span class="dot-live"></span>24/7 Emergency Service Available</span>
+      <span style="opacity: 0.7;">&bull;</span>
+      <span>Licensed &amp; Insured in Alabama</span>
+    </div>
+    <!-- CLIENT_TODO: Replace phone number -->
+    <a href="tel:+1251XXXXXXX" class="phone">&#x1F4DE; (251) XXX-XXXX</a>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M5 5l14 14M5 19l14-14M2 12h20"/>
+        </svg>
+      </div>
+      <span>Polar Air <span style="color: var(--warm); font-weight: 400; font-style: italic;">Solutions</span></span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why-us">Why Us</a></li>
+        <li><a href="#plan">Maintenance</a></li>
+        <li><a href="#area">Service Area</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="cta-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      Schedule Service
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow">
+        <span class="dot"></span>
+        Mobile, AL &middot; Built on 15 Years of Gulf Coast Experience
+      </span>
+      <h1>
+        Cool comfort<br>
+        for the <span class="accent">Gulf Coast.</span><br>
+        <span class="glow">Done right.</span>
+      </h1>
+      <p class="lede">
+        From Spring Hill to Daphne, we keep homes and businesses comfortable through every Mobile summer, every cold front, and every storm season. Same-day service, fair prices, and technicians who treat your home like their own.
+      </p>
+      <div class="hero-cta-row">
+        <button class="cta-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          Book Free Estimate
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <!-- CLIENT_TODO: Replace phone number -->
+        <a href="tel:+1251XXXXXXX" class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Call (251) XXX-XXXX
+        </a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><div class="num">15</div><div class="label">Years Experience</div></div>
+        <div class="trust-item"><div class="num">CLIENT_TODO</div><div class="label">Google Reviews</div></div>
+        <div class="trust-item"><div class="num">CLIENT_TODO</div><div class="label">Homes Served</div></div>
+        <div class="trust-item"><div class="num">24/7</div><div class="label">Emergency</div></div>
+      </div>
+    </div>
+    <div class="temp-card">
+      <div class="temp-card-header">
+        <h3>Mobile, AL &middot; Today</h3>
+        <span class="live-badge"><span class="dot-live"></span>Live</span>
+      </div>
+      <div class="temp-display" id="live-temp">--<sup>&deg;F</sup></div>
+      <div class="temp-meta" id="live-meta">
+        Loading current conditions&hellip;
+      </div>
+      <button class="temp-action" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a Free Cooling Check</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">What we do</div>
+        <h2>Every HVAC service<br>your home needs.</h2>
+      </div>
+      <p>Residential and light-commercial HVAC service across Mobile and Baldwin counties. Same techs, same trucks, same care &mdash; whether you need a $79 tune-up or a full system replacement.</p>
+    </div>
+    <div class="services-grid">
+      <article class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6m0 0L9 5m3 3l3-3M2 12h6m0 0L5 9m3 3l-3 3M22 12h-6m0 0l3-3m-3 3l3 3M12 22v-6m0 0l-3 3m3-3l3 3"/></svg>
+        </div>
+        <h3>AC Installation &amp; Repair</h3>
+        <p>Heat pumps, central air, ductless mini-splits. Carrier, Trane, Rheem, Goodman &mdash; we install and service every major brand.</p>
+        <ul>
+          <li>Same-day diagnostics</li>
+          <li>Free estimates on replacements</li>
+          <li>Up to 12-year warranties</li>
+        </ul>
+        <a href="#contact" class="service-link">Learn more &rarr;</a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l-1.5 4.5L8 10l4.5 1.5L14 16l1.5-4.5L20 10l-4.5-1.5z"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>
+        </div>
+        <h3>Heating &amp; Furnace</h3>
+        <p>Mobile gets cold too. Gas furnaces, heat pumps, electric strip heat &mdash; repairs, replacements, and tune-ups.</p>
+        <ul>
+          <li>Pre-winter system check</li>
+          <li>Carbon monoxide testing</li>
+          <li>High-efficiency upgrades</li>
+        </ul>
+        <a href="#contact" class="service-link">Learn more &rarr;</a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Indoor Air Quality</h3>
+        <p>Gulf Coast humidity, pollen, mold &mdash; we tackle them all. Whole-home dehumidifiers, UV air purifiers, and duct cleaning.</p>
+        <ul>
+          <li>Whole-home dehumidification</li>
+          <li>UV light installation</li>
+          <li>Duct sealing &amp; cleaning</li>
+        </ul>
+        <a href="#contact" class="service-link">Learn more &rarr;</a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3>Maintenance Plans</h3>
+        <p>Two visits a year, priority dispatch, and 15% off every repair. The plan that pays for itself.</p>
+        <ul>
+          <li>Spring + fall tune-ups</li>
+          <li>Skip the dispatch fee</li>
+          <li>15% off all repairs</li>
+        </ul>
+        <a href="#plan" class="service-link">See plan details &rarr;</a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l6-6-6-6M21 6h-9a3 3 0 00-3 3v9"/></svg>
+        </div>
+        <h3>Light Commercial</h3>
+        <p>Restaurants, retail, offices, churches &mdash; we keep small commercial spaces running. Rooftop units, package units, mini-splits.</p>
+        <ul>
+          <li>After-hours service available</li>
+          <li>Custom maintenance contracts</li>
+          <li>Light commercial up to 25 tons</li>
+        </ul>
+        <a href="#contact" class="service-link">Learn more &rarr;</a>
+      </article>
+      <article class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>Emergency Service</h3>
+        <p>AC out at 2 AM in August? We answer the phone. Real technicians, dispatched fast &mdash; not just a call center.</p>
+        <ul>
+          <li>24/7/365 dispatch</li>
+          <li>2-hour response goal</li>
+          <li>No after-hours surcharges for plan members</li>
+        </ul>
+        <!-- CLIENT_TODO: Replace phone number -->
+        <a href="tel:+1251XXXXXXX" class="service-link">Call now &rarr;</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY US / FEATURE STRIP ============ -->
+<section class="feature-strip" id="why-us">
+  <div class="feature-strip-inner">
+    <div>
+      <div class="section-eyebrow" style="color: var(--ice-300);">The Polar Air difference</div>
+      <h2>Why Mobile homeowners<br>keep <em>calling us back.</em></h2>
+      <p>We're not a national chain. We're a family business that lives here, services here, and answers to our neighbors. With 15 years of hands-on Gulf Coast HVAC experience, we know what Mobile summers demand — and we show up ready.</p>
+      <button class="cta-btn" style="margin-top: 12px;" onclick="document.getElementById('testimonials').scrollIntoView({behavior:'smooth'})">
+        Read our reviews
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <ul class="feature-list">
+      <li>
+        <div class="check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><strong>Upfront pricing, no surprises</strong><span>Flat-rate quotes before any work begins. You'll never see a surprise charge.</span></div>
+      </li>
+      <li>
+        <div class="check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><strong>NATE-certified technicians</strong><span>Continuous training, background checks, drug testing. No subcontractors &mdash; ever.</span></div>
+      </li>
+      <li>
+        <div class="check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><strong>Hurricane-ready service</strong><span>We stock parts before storms hit and prioritize plan members during outages.</span></div>
+      </li>
+      <li>
+        <div class="check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><strong>100% satisfaction guarantee</strong><span>If you're not happy, we make it right. No fine print, no excuses.</span></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ MAINTENANCE PLAN ============ -->
+<section class="plan" id="plan">
+  <div class="plan-card">
+    <div>
+      <span class="plan-badge">Most Popular</span>
+      <h2>The Polar Comfort Club</h2>
+      <p>Skip the breakdown. Two scheduled tune-ups a year keep your system running 30% more efficiently and double its lifespan. Plus, you skip to the front of the line when you need us most.</p>
+      <ul class="plan-benefits">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Spring AC tune-up + Fall heating tune-up</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 15% off all repairs, year-round</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Priority scheduling &mdash; first in line</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> No emergency dispatch fees, ever</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Transferable to next homeowner</li>
+      </ul>
+    </div>
+    <div class="plan-price">
+      <div class="amount"><sup>$</sup>19<sub>/mo</sub></div>
+      <div class="save">or $199/year &mdash; save $29</div>
+      <button class="cta-btn" style="width: 100%;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Join the Club</button>
+      <div style="font-size: 12px; color: rgba(11,27,44,0.5); margin-top: 14px;">Cancel anytime. No long contracts.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<!-- CLIENT_TODO: Replace all 4 testimonials with real customer reviews -->
+<section class="testimonials" id="testimonials">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">What neighbors say</div>
+        <h2>Trusted across Mobile<br>and Baldwin County.</h2>
+      </div>
+      <p>Real reviews from real customers. We earn every star.</p>
+    </div>
+    <div class="testimonial-grid">
+      <article class="testimonial">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>CLIENT_TODO: Replace with real customer review from Google Business Profile</blockquote>
+        <div class="testimonial-author">
+          <div class="avatar">?</div>
+          <div><strong>Customer Name</strong><span>Neighborhood &middot; Date</span></div>
+        </div>
+      </article>
+      <article class="testimonial">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>CLIENT_TODO: Replace with real customer review from Google Business Profile</blockquote>
+        <div class="testimonial-author">
+          <div class="avatar">?</div>
+          <div><strong>Customer Name</strong><span>Neighborhood &middot; Date</span></div>
+        </div>
+      </article>
+      <article class="testimonial">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>CLIENT_TODO: Replace with real customer review from Google Business Profile</blockquote>
+        <div class="testimonial-author">
+          <div class="avatar">?</div>
+          <div><strong>Customer Name</strong><span>Neighborhood &middot; Date</span></div>
+        </div>
+      </article>
+      <article class="testimonial">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>CLIENT_TODO: Replace with real customer review from Google Business Profile</blockquote>
+        <div class="testimonial-author">
+          <div class="avatar">?</div>
+          <div><strong>Customer Name</strong><span>Neighborhood &middot; Date</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICE AREA ============ -->
+<section class="area" id="area">
+  <div class="area-inner">
+    <div class="section-eyebrow" style="color: var(--ice-300); justify-content: center; display: inline-flex;">Where we work</div>
+    <h2>Serving Mobile and Baldwin County.</h2>
+    <p>If you're within 45 minutes of downtown Mobile, we're your local HVAC team.</p>
+    <div class="area-tags">
+      <span class="area-tag">Mobile</span>
+      <span class="area-tag">Spring Hill</span>
+      <span class="area-tag">West Mobile</span>
+      <span class="area-tag">Tillmans Corner</span>
+      <span class="area-tag">Theodore</span>
+      <span class="area-tag">Saraland</span>
+      <span class="area-tag">Semmes</span>
+      <span class="area-tag">Citronelle</span>
+      <span class="area-tag">Chickasaw</span>
+      <span class="area-tag">Prichard</span>
+      <span class="area-tag">Daphne</span>
+      <span class="area-tag">Spanish Fort</span>
+      <span class="area-tag">Fairhope</span>
+      <span class="area-tag">Loxley</span>
+      <span class="area-tag">Robertsdale</span>
+      <span class="area-tag">Bay Minette</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT FORM ============ -->
+<section class="contact-section" id="contact">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Get in Touch</div>
+        <h2>Request a<br>Free Estimate</h2>
+      </div>
+      <p>Fill out the form and we'll get back to you within the hour during business hours. For emergencies, call us directly &mdash; we're available 24/7.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-form-wrap" id="contact-form-wrap">
+        <div id="contact-fields">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cf-name">Your name</label>
+              <input type="text" id="cf-name" name="name" required placeholder="John Smith">
+            </div>
+            <div class="form-group">
+              <label for="cf-phone">Phone number</label>
+              <input type="tel" id="cf-phone" name="phone" required placeholder="(251) 555-1234">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cf-email">Email address</label>
+            <input type="email" id="cf-email" name="email" required placeholder="john@example.com">
+          </div>
+          <div class="form-group">
+            <label for="cf-service">Service needed</label>
+            <select id="cf-service" name="service" required>
+              <option value="" disabled selected>Choose a service...</option>
+              <option value="ac-repair">AC Repair</option>
+              <option value="ac-install">AC Installation</option>
+              <option value="heating-repair">Heating Repair</option>
+              <option value="heating-install">Heating Installation</option>
+              <option value="maintenance">Maintenance Plan</option>
+              <option value="duct-work">Duct Work</option>
+              <option value="indoor-air">Indoor Air Quality</option>
+              <option value="emergency">Emergency Service</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cf-message">Tell us more (optional)</label>
+            <textarea id="cf-message" name="message" rows="4" placeholder="Describe your issue or what you need..."></textarea>
+          </div>
+          <button type="button" class="cta-btn contact-submit" id="contact-submit" onclick="submitContactForm()">
+            Send Request
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <div class="contact-success" id="contact-success" style="display:none;">
+          <div class="success-icon">&#10003;</div>
+          <h3>Request Sent!</h3>
+          <!-- CLIENT_TODO: Replace phone number -->
+          <p>We'll get back to you shortly. For immediate help, call us at <a href="tel:+1251XXXXXXX" class="phone-link">(251) XXX-XXXX</a>.</p>
+        </div>
+      </div>
+      <div class="contact-info-cards">
+        <div class="info-card">
+          <div class="info-card-icon">&#x1F4DE;</div>
+          <h4>Emergency? Call now.</h4>
+          <!-- CLIENT_TODO: Replace phone number -->
+          <a href="tel:+1251XXXXXXX" class="info-card-value">(251) XXX-XXXX</a>
+          <p>Available 24/7, 365 days a year</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">&#x1F4CD;</div>
+          <h4>Service Area</h4>
+          <p class="info-card-value">Mobile, AL &amp; Gulf Coast</p>
+          <p>Daphne &middot; Fairhope &middot; Spanish Fort &middot; Theodore &middot; Saraland</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">&#x1F550;</div>
+          <h4>Business Hours</h4>
+          <p class="info-card-value">Mon&ndash;Fri: 7am &ndash; 6pm</p>
+          <p>Sat: 8am &ndash; 2pm &middot; Emergency: 24/7</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div>
+      <h2>Comfort can't wait.</h2>
+      <p>Call now or schedule online. Most days we can be at your door before sundown.</p>
+    </div>
+    <div class="final-cta-buttons">
+      <!-- CLIENT_TODO: Replace phone number -->
+      <a href="tel:+1251XXXXXXX" class="btn-white">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+        (251) XXX-XXXX
+      </a>
+      <a href="#contact" class="btn-outline-white">
+        Schedule Online
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <div class="logo" style="color: white;">
+        <div class="logo-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M5 5l14 14M5 19l14-14M2 12h20"/>
+          </svg>
+        </div>
+        <span>Polar Air <span style="color: var(--warm); font-weight: 400; font-style: italic;">Solutions</span></span>
+      </div>
+      <p>Family-owned HVAC contractor serving Mobile, AL and the Gulf Coast. Licensed, insured, and committed to your comfort.</p>
+      <div class="footer-social">
+        <!-- CLIENT_TODO: Replace # with real social media URLs -->
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="#" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005.8 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1.84-.1z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">AC Repair</a></li>
+        <li><a href="#services">AC Installation</a></li>
+        <li><a href="#services">Heating</a></li>
+        <li><a href="#services">Indoor Air Quality</a></li>
+        <li><a href="#services">Commercial</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#why-us">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <!-- CLIENT_TODO: Replace all contact info -->
+        <li><a href="tel:+1251XXXXXXX">(251) XXX-XXXX</a></li>
+        <li><a href="mailto:info@polarairsolutions.com">info@polarairsolutions.com</a></li>
+        <li>Mobile, AL 36608</li>
+        <li>License #CLIENT_TODO</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Polar Air Solutions, LLC. All rights reserved.</span>
+    <span><a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="sitemap.xml">Sitemap</a></span>
+  </div>
+</footer>
+
+<!-- PWA install banner -->
+<div class="pwa-banner" id="pwaBanner" style="display:none;">
+  <div class="pwa-banner-icon">PA</div>
+  <div class="pwa-banner-text">
+    <strong>Get the Polar Air app</strong>
+    <span>Book service, track visits, get reminders</span>
+  </div>
+  <button id="pwaInstallBtn">Install</button>
+  <button class="close" onclick="document.getElementById('pwaBanner').style.display='none'">&times;</button>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+
+<!-- Contact form handler — integrated with DispatchForce AI -->
+<script>
+async function submitContactForm() {
+  var btn = document.getElementById('contact-submit');
+  var fields = document.getElementById('contact-fields');
+  var success = document.getElementById('contact-success');
+  var name = document.getElementById('cf-name').value.trim();
+  var phone = document.getElementById('cf-phone').value.trim();
+  var email = document.getElementById('cf-email').value.trim();
+  var service = document.getElementById('cf-service').value;
+  if (!name || !phone || !email || !service) { alert('Please fill in all required fields.'); return; }
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var message = document.getElementById('cf-message').value;
+
+  // Submit to DispatchForce AI (FieldPro) bookings API
+  var fieldProPayload = {
+    orgSlug: 'polar-air',
+    customerName: name,
+    customerPhone: phone,
+    customerEmail: email,
+    serviceType: service,
+    notes: message,
+    urgency: service === 'emergency' ? 'emergency' : 'normal',
+    source: 'website_contact_form'
+  };
+
+  try {
+    // Submit to FieldPro bookings API
+    var fieldProUrl = (window.FIELDPRO_API_URL || 'http://localhost:3000') + '/api/bookings/widget';
+    var bookingPromise = fetch(fieldProUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fieldProPayload)
+    }).catch(function(err) { console.log('FieldPro booking submission:', err); });
+
+    // Also submit to Formspree if configured
+    var formspreeEndpoint = 'https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT';
+    if (formspreeEndpoint.indexOf('YOUR_FORMSPREE') === -1) {
+      var formData = new FormData();
+      formData.append('name', name);
+      formData.append('phone', phone);
+      formData.append('email', email);
+      formData.append('service', service);
+      formData.append('message', message);
+      formData.append('_subject', 'New Polar Air Solutions lead: ' + service);
+      fetch(formspreeEndpoint, {
+        method: 'POST', body: formData, headers: { 'Accept': 'application/json' }
+      }).catch(function(err) { console.log('Formspree submission:', err); });
+    }
+
+    await bookingPromise;
+    fields.style.display = 'none';
+    success.style.display = 'block';
+  } catch (err) {
+    alert('Something went wrong. Please call us directly.');
+    btn.textContent = 'Send Request';
+    btn.disabled = false;
+  }
+}
+</script>
+
+<!-- Service Worker registration + PWA install prompt -->
+<script>
+var deferredInstallPrompt = null;
+
+// Capture the browser's native install prompt before it fires
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  // Show our custom banner only when the browser says the app is installable
+  document.getElementById('pwaBanner').style.display = 'flex';
+});
+
+document.getElementById('pwaInstallBtn').addEventListener('click', function() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function(result) {
+      deferredInstallPrompt = null;
+      document.getElementById('pwaBanner').style.display = 'none';
+    });
+  } else {
+    // Fallback for iOS (no beforeinstallprompt support)
+    alert('To install: tap the Share button in Safari, then choose "Add to Home Screen".');
+    document.getElementById('pwaBanner').style.display = 'none';
+  }
+});
+
+// Hide banner after app is installed
+window.addEventListener('appinstalled', function() {
+  document.getElementById('pwaBanner').style.display = 'none';
+  deferredInstallPrompt = null;
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) { console.log('SW registered:', reg.scope); })
+      .catch(function(err) { console.log('SW failed:', err); });
+  });
+}
+</script>
+
+<!-- FieldPro / DispatchForce AI Booking Widget -->
+<script src="widget.js" data-org-slug="polar-air" data-api-base="http://localhost:3000" async></script>
+
+</body>
+</html>

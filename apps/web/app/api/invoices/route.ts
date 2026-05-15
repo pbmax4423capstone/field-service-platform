@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
+import { randomBytes } from 'crypto'
 import { z } from 'zod'
 
 const lineItemSchema = z.object({
@@ -29,12 +30,7 @@ function generateInvoiceNumber(count: number): string {
 }
 
 function generatePublicToken(): string {
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  let token = ''
-  for (let i = 0; i < 32; i++) {
-    token += chars[Math.floor(Math.random() * chars.length)]
-  }
-  return token
+  return randomBytes(24).toString('base64url')
 }
 
 export async function POST(req: NextRequest) {
