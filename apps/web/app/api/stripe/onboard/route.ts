@@ -30,6 +30,26 @@ export async function POST() {
 
     let accountId = org.stripe_account_id
 
+    // If we already have a stored account ID, verify it still exists in Stripe.
+    // It can go missing if the account was deleted or the secret key changed
+    // (e.g. switching from test→live mode or to a different Stripe account).
+    if (accountId) {
+      try {
+        await stripe.accounts.retrieve(accountId)
+      } catch (retrieveErr: any) {
+        if (retrieveErr?.code === 'account_invalid' || retrieveErr?.raw?.code === 'resource_missing') {
+          // Stale ID — clear it so we create a fresh account below
+          accountId = null
+          await supabase
+            .from('organizations')
+            .update({ stripe_account_id: null, stripe_onboarding_complete: false })
+            .eq('id', userData.organization_id)
+        } else {
+          throw retrieveErr
+        }
+      }
+    }
+
     if (!accountId) {
       const account = await stripe.accounts.create({
         type: 'express',
